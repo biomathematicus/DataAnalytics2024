@@ -46,3 +46,9 @@ WHERE	"SCH_GRADE_G09" = 'Yes'
 ORDER BY E."LEA_STATE", E."LEA_NAME", E."SCH_NAME";
 END;
 $$ LANGUAGE plpgsql
+
+/* 
+After the query is created, you can see the table by using this following command:
+
+SELECT * FROM HSTOTALS();
+*/

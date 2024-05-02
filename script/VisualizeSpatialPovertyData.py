@@ -6,6 +6,9 @@ import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 from   matplotlib.ticker import PercentFormatter
+import matplotlib.colors as mcol
+import matplotlib.cm as cm
+from   shapely.geometry import box
 
 def hist2moments(histogram_data, num_terms, generate_figs, algebra_estimates, COLOR1, COLOR2, sz, OutputResolution, state):
     lw = 2.5
@@ -37,7 +40,8 @@ def hist2moments(histogram_data, num_terms, generate_figs, algebra_estimates, CO
 
         clr = 'tab:red'
         colors = np.where(np.array(algebra_estimates) >= np.array(histogram_data), COLOR1, COLOR2) 
-        
+        enroll_greater_than_poverty = np.sum(np.array(algebra_estimates) >= np.array(histogram_data))/len(algebra_estimates)
+
         ax2.set_ylabel('Proportion Children in ' + state + '\n Enrolled in Algebra II', color=clr, size=sz)  # we already handled the x-label with ax1
         plt.scatter(histogram_data, algebra_estimates, color=colors, s=5)
         plt.plot([0, 0.3], [0, 0.3], 'k--', linewidth=lw)
@@ -57,7 +61,7 @@ def hist2moments(histogram_data, num_terms, generate_figs, algebra_estimates, CO
     krt = inner_product((x - e_x) ** 4 * f_approx, np.ones_like(f_approx), h) / (std**2) ** 2 - 3
 
     # Return statistical moments
-    return e_x, std, skw, krt, colors
+    return e_x, std, skw, krt, colors, enroll_greater_than_poverty
 
 def representation_theory(num_terms, t, f, h):
     # Basis array
@@ -84,13 +88,14 @@ time_str_abs = tk.time()
 # These are the setup variables (Passowrds, graphic settings, states to analyze)
 postgresql_pwd   =  os.getenv('PostgreSQL_PWD')
 sz               =  12       # Fontsize
-COLOR1           = '#FF0000' # Color for scatter points - Higher prop. of enrollment than poverty
-COLOR2           = '#FF7F7F' # Color for scatter points - Lower prop. of enrollment than poverty
+COLOR1           = '#FF0000' # Color for scatter points - Lower prop. of enrollment than poverty
+COLOR2           = '#0000FF' # Color for scatter points - Higher prop. of enrollment than poverty
 OutputResolution =  500      # Figure resolution in DPI
 window_width     =  12       # Figure width
 window_height    =  8        # Figure length
 num_terms        =  7        # Number of terms in polynomial approximation to PDF function   
-generate_figs    = True      # Flag to generate figures   
+generate_figs    = True      # Flag to generate figures  
+skip_state_maps  = True      # Flag to skip state map generation  
 state_string = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
     'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
@@ -138,6 +143,8 @@ time_str_state    = np.zeros((len(state_string)))
 time_end_state    = np.zeros((len(state_string)))
 time_str_graphics = np.zeros((len(state_string)))
 time_end_graphics = np.zeros((len(state_string)))
+
+state_performance = np.zeros((len(state_string)))
 
 # Loop to analyze each state in "state_string"
 for state,FIPS_state in zip(state_string,FIP_state):
@@ -289,8 +296,16 @@ for state,FIPS_state in zip(state_string,FIP_state):
     sorted_algebraII_estimated = [algebra_dict.get(leaid, 0) for leaid in standard_order_leaid]
 
     # Use representation theory to approximate statistical moments of data (unused for now)
-    e_x, std, skw, krt, colors = hist2moments(sorted_normalized_estimated_childrenPoverty, num_terms, generate_figs,
-                                                sorted_algebraII_estimated, COLOR1,COLOR2, sz, OutputResolution, state)
+    e_x, std, skw, krt, colors, enroll_greater_than_poverty = hist2moments(sorted_normalized_estimated_childrenPoverty, 
+                                                num_terms, generate_figs, sorted_algebraII_estimated, COLOR1,COLOR2, sz, 
+                                                OutputResolution, state)
+    
+    # Proportion of districts with higher alg II enrollment than poverty enrollment
+    state_performance[state_iteration] = enroll_greater_than_poverty
+
+    if skip_state_maps:
+        state_iteration += 1
+        continue
 
     # Representative colors per each LEAID
     colors_leaid = {'Color': colors,
@@ -383,9 +398,9 @@ for state,FIPS_state in zip(state_string,FIP_state):
             if (color != "#FF000000"):
                 subset = geocode_data_gdf[geocode_data_gdf['Color'] == color]
                 if (color == COLOR1):
-                    subset.plot(ax=ax, color=color, markersize=5, label='Higher Proportion of Poverty\nthan AP Enrollment')
-                else:
                     subset.plot(ax=ax, color=color, markersize=5, label='Lower Proportion of Poverty\nthan AP Enrollment')
+                else:
+                    subset.plot(ax=ax, color=color, markersize=5, label='Higher Proportion of Poverty\nthan AP Enrollment')
             
         ax.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9, 0, 0), bbox_transform=fig.transFigure, framealpha=0.0, fontsize=sz)
         plt.savefig('../Figures/Loan_StateMaps/LoanMap_' + state + '.png', dpi=OutputResolution)
@@ -409,6 +424,40 @@ plt.xlabel('State')
 plt.ylabel('Runtime [s]')
 plt.savefig('../Figures/runtime.png', dpi=OutputResolution)
 plt.close()
+
+mean_state_performance = np.mean(state_performance)
+
+# print(state_performance)
+state_group = {'STATEFP': FIP_state,
+                'state_performance': state_performance}
+
+# Analyze Country-wide performance indices
+shapefile_states_path = '../shape_files/tl_2023_us_state/tl_2023_us_state.shp'
+states_shp = gpd.read_file(shapefile_states_path)
+enroll_greater_than_poverty_df = pd.DataFrame(state_group)
+states_shp = states_shp.merge(enroll_greater_than_poverty_df, left_on='STATEFP', right_on='STATEFP', how='left')
+window_width, window_height = 15, 10
+fig, ax = plt.subplots(1, figsize=(window_width, window_height))
+fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
+ax.axis('off')
+
+# User-defined colormap from red to blue
+color_list = ['red', 'white', 'blue']  # Colors from blue to white to red
+cmap_name = 'MyCmapName'
+positions = ([0.0, mean_state_performance, max(state_performance)]-min(state_performance))/(max(state_performance)-min(state_performance))
+cm1 = mcol.LinearSegmentedColormap.from_list(cmap_name, list(zip(positions, color_list)))
+cnorm = mcol.Normalize(vmin=min(state_performance), vmax=max(state_performance))
+sm = cm.ScalarMappable(norm=cnorm, cmap=cm1)
+sm.set_array([])  
+states_shp.plot(column='state_performance', ax=ax, edgecolor='0', linewidth=1, cmap=cm1)
+cbaxes = fig.add_axes([0.85, 0.15, 0.015, 0.7])  # Adjust these values for your layout needs
+cbar = fig.colorbar(sm, cax=cbaxes)
+cbar.set_label('State Performance', size=12)  # Adjust the label
+ax.set_ylim((  19,  71))
+ax.set_xlim((-170, -50))
+plt.savefig('../Figures/CountryWidePerformance.png', dpi=OutputResolution)
+plt.close()
+
 
 time_end_abs = tk.time()
 print('\n\nCode has finished to last line in '+str(time_end_abs-time_str_abs)+' secs.')

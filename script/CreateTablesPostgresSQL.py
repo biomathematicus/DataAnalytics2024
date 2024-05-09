@@ -140,9 +140,9 @@ all_path_directories = ['../data/GRF17'
     ,'../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV'
     ,'../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV'
     ,'../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV'
-    ,'../data/hmda_2017_nationwide_all-records_labels'
     ,'../data/EDGE_GEOCODE_PUBLICLEA_1718'
-    ,'../data']
+    ,'../data'
+    ,'../data/hmda_2017_nationwide_all-records_labels']
 
 
 # All directories that will be imported to SQL
@@ -150,18 +150,18 @@ output_sql_name = ['GRF17'
                   ,'CRDC_SCH'
                   ,'CRDC_SCH_EDFacts'
                   ,'CRDC_LEA'
-                  ,'HMDA'
                   ,'GEOCODE'
-                  ,'ussd17']
+                  ,'ussd17'
+                  ,'HMDA']
 
 #Change it according with the files that you have in each directory 
 excel_files_exist = [True, #If first time, put TRUE (GRF17)
                      False,
                      False, 
                      False,
-                     False,
-                     False, 
-                     True] #If first time, put TRUE (ussd17)
+                     True, #If first time, put TRUE (GEOCODE)
+                     True, #If first time, put TRUE (ussd17)
+                     False] 
 
 file_number = 0
 for path_directory in all_path_directories:

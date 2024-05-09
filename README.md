@@ -43,12 +43,12 @@ These subfolders contain various CSV or Excel files which will be converted to C
 **Shapefiles Overview**
   - **Source:** The shapefiles are downloaded from the U.S. Census Bureau, specifically from their TIGER/Line files. These files are a comprehensive source of geographic data that provides detailed information about various geographical and administrative boundaries in the United States.
   - **Usage:**
-    - *County Level Shapefiles:* Used to create detailed maps that display data at the county level. This granularity allows for the visualization of data variations within states, which is crucial for analyses that require understanding local differences in demographic and economic conditions. These maps are instrumental in visualizing the distribution of poverty among children and the enrollment rates in Algebra II across different counties. The shapefiles for the counties can be accessed directly via [Census Bureau - County Shapefiles 2023](https://www2.census.gov/geo/tiger/TIGER2023/COUNTY/)
-    - *State Level Shapefiles:* These are used to create broader state-level visualizations. Such maps are useful for assessing and comparing overall state performance and trends, particularly useful in your project for creating heatmaps of state performance in educational metrics. These shapefiles can be accessed through [Census Bureau - State Shapefiles 2023](https://www2.census.gov/geo/tiger/TIGER2023/STATE/)
+    - *County Level Shapefiles:* Used to create detailed maps that display data at the county level. This granularity allows for the visualization of data variations within states, which is crucial for analyses that require understanding local differences in demographic and economic conditions. These maps are instrumental in visualizing the distribution of poverty among children and the enrollment rates in Algebra II across different counties. The shapefiles for the counties can be accessed directly via [Census Bureau - County Shapefiles 2018](https://www2.census.gov/geo/tiger/TIGER2018/COUNTY/)
+    - *State Level Shapefiles:* These are used to create broader state-level visualizations. Such maps are useful for assessing and comparing overall state performance and trends, particularly useful in your project for creating heatmaps of state performance in educational metrics. These shapefiles can be accessed through [Census Bureau - State Shapefiles 2018](https://www2.census.gov/geo/tiger/TIGER2018/STATE/)
   - **Technical Details**
     - **Format:** The shapefiles are provided in a standard format that includes essential geographic data attributes, such as boundaries and identifiers, which can be easily integrated into geographic information systems (GIS) to create maps.
     - **Access:** Files are accessed via the FTP archive, which allows for direct download of the latest available data for each year, ensuring the maps reflect current administrative boundaries and geographical data.
-    - **Organization:** The shape files must be saved in a folder called "shape_files" in order to be called as follow: `../shape_files/tl_2018_us_county/tl_2018_us_county.shp` for the county shape file, and `../shape_files/tl_2023_us_state/tl_2023_us_state.shp` for the state shape file. 
+    - **Organization:** The shape files must be saved in a folder called "shape_files" in order to be called as follow: `../shape_files/tl_2018_us_county/tl_2018_us_county.shp` for the county shape file, and `../shape_files/tl_2018_us_state/tl_2018_us_state.shp` for the state shape file. 
 
 
 ### Python Scripts
@@ -103,9 +103,10 @@ These subfolders contain various CSV or Excel files which will be converted to C
       - SQL Command Management:
         - Generates SQL commands for each table and writes them to SQL files, which are later executed against the database to create tables and import data.
 - **Requirenments:**   
-  - Requires `pandas`, `psycopg2`, `openpyxl`. 
+  - Requires `pandas`, `psycopg2`, `openpyxl`, `xlrd`
   - You have to create an environmental variables with your PostgreSQL password, called `PostgreSQL_PWD`. 
   - The script requires to create a folder called "SQL" in the work directory.  
+  - You must create a database in PostgreSQL called "CRDB". 
 - **Output:** The script creates a SQL script in the "SQL" folder and generates the tables in PostgreSQL under the name of "CRDB". 
 - **Data Files:** This script uses the data explained on Data Overview. 
 
@@ -122,7 +123,7 @@ These subfolders contain various CSV or Excel files which will be converted to C
     - Identifies the polynomial degree that results in the minimum RMSE.
 - **Histogram Approximation:**
     - Uses the optimal polynomial fit to approximate the histogram of the proportion of children in poverty across states.
-- **Dependencies:** Requires `psycopg2`, `geopandas`, `matplotlib`. It is necessary to create a folder in the work directory called "Figures" and a subfolder called "Convergence". 
+- **Dependencies:** Requires `psycopg2`, `geopandas`, `matplotlib`. 
 - **Output:** Generates and saves visualizations in a structured folder system within the "Figures" directory, which includes the RMSE evolution versus polynomial degree and the relative change of the RMSE normalized by the intial RMSE.
 - **Data Files:** The script calls executes several SQL queries to obtain the source data for the histograms. 
 
@@ -147,7 +148,6 @@ These subfolders contain various CSV or Excel files which will be converted to C
     Saves these heatmaps in the "Figures" folder.
 - **Dependencies:** 
   - Requires Python libraries such as `matplotlib`, `pandas`, `psycopg2`. 
-  - Additionally, if it does not already exist, a "Figures" folder should be created. Within this folder, two subfolders named "Income_StateMaps" and   "Loan_StateMaps" must also be created. 
   - A folder named "shape_fies", located in the work directory is also necessary, where the shape files downloaded from Census Bureau are going to be. 
 - **Output:** Generates and saves visualizations in a structured folder system within the "Figures" directory, which includes subfolders for different types of visual data.
 - **Data Files:** Utilizes data extracted from SQL databases and processed for visualization purposes. Shape files from all the counties and states were also used to create the map figures. Refer to Data Overview to check it. 

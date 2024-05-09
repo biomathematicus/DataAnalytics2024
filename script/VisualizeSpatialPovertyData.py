@@ -85,6 +85,42 @@ def inner_product(f, g, h):
 
 time_str_abs = tk.time()
 
+## Create folders 
+# Check if the folder exists - Figures
+if not os.path.exists("../Figures"):
+    # Create the folder
+    os.makedirs("../Figures", exist_ok=True)
+    print(f"Folder created: {"../Figures"}")
+else:
+    print(f"Folder already exists: {"../Figures"}")
+
+# Check if the folder exists- Histograms
+if not os.path.exists("../Figures/Histograms"):
+    # Create the folder
+    os.makedirs("../Figures/Histograms", exist_ok=True)
+    print(f"Folder created: {"../Figures/Histograms"}")
+else:
+    print(f"Folder already exists: {"../Figures/Histograms"}")
+
+    
+# Check if the folder exists- Loan_StateMaps
+if not os.path.exists("../Figures/Loan_StateMaps"):
+    # Create the folder
+    os.makedirs("../Figures/Loan_StateMaps", exist_ok=True)
+    print(f"Folder created: {"../Figures/Loan_StateMaps"}")
+else:
+    print(f"Folder already exists: {"../Figures/Loan_StateMaps"}")
+
+# Check if the folder exists- Income_StateMaps
+if not os.path.exists("../Figures/Income_StateMaps"):
+    # Create the folder
+    os.makedirs("../Figures/Income_StateMaps", exist_ok=True)
+    print(f"Folder created: {"../Figures/Income_StateMaps"}")
+else:
+    print(f"Folder already exists: {"../Figures/Income_StateMaps"}")
+
+
+
 # These are the setup variables (Passowrds, graphic settings, states to analyze)
 postgresql_pwd   =  os.getenv('PostgreSQL_PWD')
 sz               =  12       # Fontsize
@@ -95,7 +131,7 @@ window_width     =  12       # Figure width
 window_height    =  8        # Figure length
 num_terms        =  4        # Number of terms in polynomial approximation to PDF function   
 generate_figs    = True      # Flag to generate figures  
-skip_state_maps  = True      # Flag to skip state map generation  
+skip_state_maps  = False      # Flag to skip state map generation  
 state_string = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
     'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
@@ -451,7 +487,7 @@ print('Midpoint ', midpoint)
 print('Maximum  ', upperlimit)
 
 # Analyze Country-wide performance indices
-shapefile_states_path = '../shape_files/tl_2023_us_state/tl_2023_us_state.shp'
+shapefile_states_path = '../shape_files/tl_2018_us_state/tl_2018_us_state.shp'
 states_shp = gpd.read_file(shapefile_states_path)
 enroll_greater_than_poverty_df = pd.DataFrame(state_group)
 states_shp = states_shp.merge(enroll_greater_than_poverty_df, left_on='STATEFP', right_on='STATEFP', how='left')

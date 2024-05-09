@@ -7,39 +7,38 @@ This README file provides a detailed overview of the scripts included in this re
 ## Files Description
 
 ### Data Overview
-1. 2017-18 Civil Rights Data Collection (CRDC): Provides achievement metrics for U.S. middle and high schools, foundational for analyzing educational performance and demographic impacts.
+1. **2017-18 Civil Rights Data Collection (CRDC):** Provides achievement metrics for U.S. middle and high schools, foundational for analyzing educational performance and demographic impacts.
 URL: [CRDC](https://ocrdata.ed.gov/)
-2. Small Area Income and Poverty Estimates (SAIPE): Offers annual income and poverty statistics by school district, allowing analysis of economic conditions alongside educational achievements.
+2. **Small Area Income and Poverty Estimates (SAIPE):** Offers annual income and poverty statistics by school district, allowing analysis of economic conditions alongside educational achievements.
 URL: [SAIPE](https://www.census.gov/data/datasets/2017/demo/saipe/2017-school-districts.html)
-3. 2017 School Locations & Geoassignments (SLGA): Contains geocoded addresses and geographic indicators for educational institutions, useful for spatial analysis.
+3. **2017 School Locations & Geoassignments (SLGA):** Contains geocoded addresses and geographic indicators for educational institutions, useful for spatial analysis.
 URL: [SLGA](https://nces.ed.gov/programs/edge/geographic/schoollocations)
-4. 2017 Home Mortgage Disclosure Act (HMDA) Database: Provides mortgage data by census tract, to be correlated with educational and socioeconomic data.
+4. **2017 Home Mortgage Disclosure Act (HMDA) Database:** Provides mortgage data by census tract, to be correlated with educational and socioeconomic data.
 URL: [HMDA](https://www.consumerfinance.gov/data-research/hmda/historic-data/)
-5. 2017 School District Geographic Relationship Files (SDGR): Highlights the spatial relationships between school districts and other geographic areas, crucial for understanding resource allocation.
+5. **2017 School District Geographic Relationship Files (SDGR):** Highlights the spatial relationships between school districts and other geographic areas, crucial for understanding resource allocation.
 URL: [SDGR](https://nces.ed.gov/programs/edge/Geographic/RelationshipFiles)
-6. 2020 Address Count Listing Files of the Bureau of the Census (ACLF): Contains detailed housing unit counts by census block, with the Texas file available in your data folder.
+6. **2020 Address Count Listing Files of the Bureau of the Census (ACLF):** Contains detailed housing unit counts by census block, with the Texas file available in your data folder.
 URL: [ACLF](https://www.census.gov/geographies/reference-files/2020/geo/2020addcountlisting.html)
 
 **Data Organization**
 All raw data must be stored in a directory named "data" at the work directory. This directory includes several subfolders:
-
-`../data/GRF17
-../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV
-../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV
-../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV
-../data/hmda_2017_nationwide_all-records_labels
-../data/EDGE_GEOCODE_PUBLICLEA_1718
-../data`
+- `../data/GRF17`
+- `../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV`
+- `../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV`
+- `../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV`
+- `../data/hmda_2017_nationwide_all-records_labels`
+- `../data/EDGE_GEOCODE_PUBLICLEA_1718`
+- `../data`
 
 These subfolders contain various CSV or Excel files which will be converted to CSV if necessary, and then saved as tables in PostgreSQL under the following names:
 
-`GRF17
-CRDC_SCH
-CRDC_SCH_EDFacts
-CRDC_LEA
-HMDA
-GEOCODE
-ussd17_edited`
+- `GRF17`
+- `CRDC_SCH`
+- `CRDC_SCH_EDFacts`
+- `CRDC_LEA`
+- `HMDA`
+- `GEOCODE`
+- `ussd17_edited`
 
 **Shapefiles Overview**
   - **Source:** The shapefiles are downloaded from the U.S. Census Bureau, specifically from their TIGER/Line files. These files are a comprehensive source of geographic data that provides detailed information about various geographical and administrative boundaries in the United States.
@@ -107,13 +106,13 @@ ussd17_edited`
   - Requires `pandas`, `psycopg2`, `openpyxl`. 
   - You have to create an environmental variables with your PostgreSQL password, called `PostgreSQL_PWD`. 
   - The script requires to create a folder called "SQL" in the work directory.  
-
-- **Data Files:** This script uses the data explained on Data Overview. 
 - **Output:** The script creates a SQL script in the "SQL" folder and generates the tables in PostgreSQL under the name of "CRDB". 
+- **Data Files:** This script uses the data explained on Data Overview. 
+
 
 #### 3. `AnalyzeConvergence.py`
 - **Location:** 'script' directory.
-- **Purpose:** Automates the process of finding the best polynomial fit for an histogram representing the proportion of children aged 5 to 17 in poverty for each state. The script iterates through different degrees of polynomials to minimize the root mean square error (RMSE), thus identifying the degree with the minimum error.
+- **Purpose:** Finds the best polynomial fit for an histogram representing the proportion of children aged 5 to 17 in poverty for each state. The script iterates through different degrees of polynomials to access where the root mean square error (RMSE) converges. Convergency is considered when the relative change of RMSE is below a threshold (5%).
 - **Detailed Processing Workflow:** 
   - **Polynomial Degree Iteration:**
     - Iterates over a range of polynomial degrees to fit the histogram data.
@@ -124,6 +123,7 @@ ussd17_edited`
 - **Histogram Approximation:**
     - Uses the optimal polynomial fit to approximate the histogram of the proportion of children in poverty across states.
 - **Dependencies:** Requires `psycopg2`, `geopandas`, `matplotlib`. It is necessary to create a folder in the work directory called "Figures" and a subfolder called "Convergence". 
+- **Output:** Generates and saves visualizations in a structured folder system within the "Figures" directory, which includes the RMSE evolution versus polynomial degree and the relative change of the RMSE normalized by the intial RMSE.
 - **Data Files:** The script calls executes several SQL queries to obtain the source data for the histograms. 
 
 #### 4. `VisualizeSpatialPovertyData.py`
@@ -157,7 +157,7 @@ ussd17_edited`
 - **Functionality:**
   - **Data Collection:** The script retrieves heatmap and histogram files previously generated by other scripts in the project.
   - **LaTeX Script Generation:** It dynamically generates LaTeX code to embed these visualizations in an organized manner. The LaTeX code includes formatting and layout configurations to ensure the visualizations are displayed effectively.
-  - **Output:** The final output is a LaTeX file that systematically presents all the visual data concerning family income, loans, and other relevant metrics, making it a valuable reference document for stakeholders or researchers who require detailed visual insights into the data.
+- **Output:** The final output is a LaTeX file that systematically presents all the visual data concerning family income, loans, and other relevant metrics, making it a valuable reference document for stakeholders or researchers who require detailed visual insights into the data.
 
 #### 6. `CreatingAddressTableFromACLFTxt.py`
 - **Location:** 'scripts' directory

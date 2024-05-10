@@ -104,17 +104,17 @@ FIP_state = [
 if not os.path.exists("../Figures"):
     # Create the folder
     os.makedirs("../Figures", exist_ok=True)
-    print(f"Folder created: {"../Figures"}")
+    print("Folder created: ../Figures")
 else:
-    print(f"Folder already exists: {"../Figures"}")
+    print("Folder already exists: ../Figures")
 
 # Check if the folder exists- Convergence
 if not os.path.exists("../Figures/Convergence"):
     # Create the folder
     os.makedirs("../Figures/Convergence", exist_ok=True)
-    print(f"Folder created: {"../Figures/Convergence"}")
+    print("Folder created: ../Figures/Convergence")
 else:
-    print(f"Folder already exists: {"../Figures/Convergence"}")
+    print("Folder already exists: ../Figures/Convergence")
 
 # Main connection to PostgreSQL server
 conn = psycopg2.connect(

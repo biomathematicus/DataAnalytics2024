@@ -90,34 +90,34 @@ time_str_abs = tk.time()
 if not os.path.exists("../Figures"):
     # Create the folder
     os.makedirs("../Figures", exist_ok=True)
-    print(f"Folder created: {"../Figures"}")
+    print("Folder created: ../Figures")
 else:
-    print(f"Folder already exists: {"../Figures"}")
+    print("Folder already exists: ../Figures")
 
 # Check if the folder exists- Histograms
 if not os.path.exists("../Figures/Histograms"):
     # Create the folder
     os.makedirs("../Figures/Histograms", exist_ok=True)
-    print(f"Folder created: {"../Figures/Histograms"}")
+    print("Folder created: ../Figures/Histograms")
 else:
-    print(f"Folder already exists: {"../Figures/Histograms"}")
+    print("Folder already exists: ../Figures/Histograms")
 
     
 # Check if the folder exists- Loan_StateMaps
 if not os.path.exists("../Figures/Loan_StateMaps"):
     # Create the folder
     os.makedirs("../Figures/Loan_StateMaps", exist_ok=True)
-    print(f"Folder created: {"../Figures/Loan_StateMaps"}")
+    print("Folder created: ../Figures/Loan_StateMaps")
 else:
-    print(f"Folder already exists: {"../Figures/Loan_StateMaps"}")
+    print("Folder already exists: ../Figures/Loan_StateMaps")
 
 # Check if the folder exists- Income_StateMaps
 if not os.path.exists("../Figures/Income_StateMaps"):
     # Create the folder
     os.makedirs("../Figures/Income_StateMaps", exist_ok=True)
-    print(f"Folder created: {"../Figures/Income_StateMaps"}")
+    print("Folder created: ../Figures/Income_StateMaps")
 else:
-    print(f"Folder already exists: {"../Figures/Income_StateMaps"}")
+    print("Folder already exists: ../Figures/Income_StateMaps")
 
 
 
@@ -129,9 +129,9 @@ COLOR2           = '#0000FF' # Color for scatter points - Higher prop. of enroll
 OutputResolution =  500      # Figure resolution in DPI
 window_width     =  12       # Figure width
 window_height    =  8        # Figure length
-num_terms        =  4        # Number of terms in polynomial approximation to PDF function   
+num_terms        =  4        # Number of terms in polynomial approximation to PDF function (According to convergence we should use a fourth degree polynomial)  
 generate_figs    = True      # Flag to generate figures  
-skip_state_maps  = False      # Flag to skip state map generation  
+skip_state_maps  = False     # Flag to skip state map generation  
 state_string = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
     'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',

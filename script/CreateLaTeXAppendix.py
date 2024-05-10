@@ -1,3 +1,13 @@
+import os
+
+# Check if the folder exists - SupplementaryMaterial
+if not os.path.exists("../SupplementaryMaterial"):
+    # Create the folder
+    os.makedirs("../SupplementaryMaterial", exist_ok=True)
+    print("Folder created: ../SupplementaryMaterial")
+else:
+    print("Folder already exists: ../SupplementaryMaterial")
+
 # Select the states you want to include in the supplementary material
 state_string = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',

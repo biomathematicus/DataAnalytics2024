@@ -102,7 +102,7 @@ These subfolders contain various CSV or Excel files which will be converted to C
       - Prepares SQL commands to import cleaned data into the PostgreSQL database using the COPY command.
       - SQL Command Management:
         - Generates SQL commands for each table and writes them to SQL files, which are later executed against the database to create tables and import data.
-- **Requirenments:**   
+- **Requirements:**   
   - Requires `pandas`, `psycopg2`, `openpyxl`, `xlrd`
   - You have to create an environmental variables with your PostgreSQL password, called `PostgreSQL_PWD`. 
   - The script requires to create a folder called "SQL" in the work directory.  

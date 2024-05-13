@@ -237,7 +237,7 @@ SELECT * FROM get_blocks_by_leaid('4808130');
 
 
 
-DROP FUNCTION get_blocks_by_tract(target_tract VARCHAR);
+DROP FUNCTION if exists get_blocks_by_tract(target_tract VARCHAR);
 CREATE OR REPLACE FUNCTION get_blocks_by_tract(target_tract VARCHAR)
 RETURNS TABLE(tract VARCHAR, blkgrp VARCHAR, num_distinct_blkgrps_in_tract INTEGER) AS $$
 DECLARE
@@ -269,7 +269,7 @@ SELECT * FROM "CRDB".address_data_national WHERE LEFT(block_geoid, 11) ='4837501
 
 
 
-DROP FUNCTION get_tracts_by_leaid(VARCHAR);
+DROP FUNCTION if exists get_tracts_by_leaid(VARCHAR);
 CREATE OR REPLACE FUNCTION get_tracts_by_leaid(target_leaid VARCHAR)
 RETURNS TABLE(leaid VARCHAR, tract VARCHAR, num_tracts_in_leaid INTEGER) AS $$
 BEGIN
@@ -670,7 +670,7 @@ SELECT * FROM get_leaid_students_and_landarea('300210001002');
 SELECT * FROM assign_blkgrp_weights() WHERE blkgrp = '300210001002';
 
 -- checking the estimates to see the error
-drop function estimate_leaid_block_group_data();
+drop function if exists  estimate_leaid_block_group_data();
 CREATE OR REPLACE FUNCTION estimate_leaid_block_group_data()
 RETURNS TABLE(
     leaid VARCHAR,
@@ -771,7 +771,7 @@ GROUP BY
     blkgrp;
 
 -- checking accurary
-drop function calculate_leaid_totals(target_leaid VARCHAR);
+drop function if exists calculate_leaid_totals(target_leaid VARCHAR);
 CREATE OR REPLACE FUNCTION calculate_leaid_totals(target_leaid VARCHAR)
 RETURNS TABLE(
 	leaid VARCHAR,
@@ -798,7 +798,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 --running the above for all leaids:
-drop FUNCTION calculate_totals_for_all_leaids();
+drop FUNCTION if exists calculate_totals_for_all_leaids();
 CREATE OR REPLACE FUNCTION calculate_totals_for_all_leaids()
 RETURNS TABLE(
     leaid_ VARCHAR,
@@ -849,7 +849,7 @@ SELECT * FROM calculate_totals_for_all_leaids() ORDER by student_error DESC;
 
 -- GETTING READY TO CONVERT TO TRACT
 -- helper function
-drop  FUNCTION count_block_groups_per_tract();
+drop  FUNCTION if exists count_block_groups_per_tract();
 CREATE OR REPLACE FUNCTION count_block_groups_per_tract_leaid()
 RETURNS TABLE(
 	leaid VARCHAR,
@@ -875,7 +875,7 @@ Select count(distinct(tract)) from "CRDB".grf17_lea_blkgrp; --99963
 Select count(distinct( CAST(LEFT(blkgrp, 11) AS VARCHAR))) from  assign_blkgrp_weights(); --99963
 
 -- get the tract weight (contribution of a tract to an leaid)
-drop function calculate_all_tract_weights();
+drop function if exists calculate_all_tract_weights();
 CREATE OR REPLACE FUNCTION calculate_all_tract_weights()
 RETURNS TABLE(
     leaid VARCHAR,
@@ -914,7 +914,7 @@ SELECT t.leaid, SUM(tract_weight)
 --COMBINING WITH HMDA DATA
 -- first cleaning hmda
 ALTER TABLE "CRDB".hmda_2017_nationwide_allrecords_labels
-ADD COLUMN tract VARCHAR(11);
+ADD COLUMN IF NOT EXISTS tract VARCHAR(11);
 UPDATE "CRDB".hmda_2017_nationwide_allrecords_labels
 SET tract = LPAD(state_code::VARCHAR, 2, '0') || 
             LPAD(county_code::VARCHAR, 3, '0') || 
@@ -1005,7 +1005,7 @@ SELECT * FROM get_hmda_data_per_tract_leaid() ORDER BY denial_count DESC;
 
 
 -- algebra ii
-DROP FUNCTION get_algebraii_enrollment_summary_leaid();
+DROP FUNCTION if exists  get_algebraii_enrollment_summary_leaid();
 CREATE OR REPLACE FUNCTION get_algebraii_enrollment_summary_leaid()
 RETURNS TABLE(
     leaid VARCHAR,
@@ -1028,7 +1028,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP FUNCTION get_leaid_algii_mortgage();
+DROP FUNCTION if exists get_leaid_algii_mortgage();
 CREATE OR REPLACE FUNCTION get_leaid_algii_mortgage()
 RETURNS TABLE(
     leaid VARCHAR,

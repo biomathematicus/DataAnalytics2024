@@ -43,33 +43,36 @@ def create_graph_from_data(connection, sql_query, output_path):
     # Normalize the selected metrics
     scaler = MinMaxScaler()
     df[['normalized_enrollment', 'normalized_rate_spread']] = scaler.fit_transform(df[['total_enrollment', 'weighted_avg_rate_spread']])
+    #df[['normalized_enrollment', 'normalized_rate_spread']] = df[['total_enrollment', 'weighted_avg_rate_spread']]
 
     # Sort DataFrame by 'normalized_rate_spread' in descending order for better visual representation
-    df.sort_values('normalized_rate_spread', ascending=False, inplace=True)
+    df.sort_values(by=[ 'normalized_enrollment','normalized_rate_spread'], ascending=False, inplace=True)
 
     # Plotting
     plt.figure(figsize=(11, 8.5))  # Set the figure size to typical page size
     ax = df.plot(kind='bar', x='leaid', y=['normalized_enrollment', 'normalized_rate_spread'], stacked=False)
-    plt.title('Normalized Total Enrollment and Average Rate Spread by LEAID')
+    plt.title('Normalized Total Enrollment in Algebra II for Nationwide Public Schools\nand Average Rate Spread by LEAID')
     plt.ylabel('Normalized Metrics')
     plt.xlabel('LEAID')
 
     # Set y-axis limit to the 75th percentile (third quartile) of both normalized metrics combined
-    third_quartile = df[['normalized_enrollment', 'normalized_rate_spread']].quantile(0.75).max()
-    plt.ylim([0, third_quartile])
+    limi = df[['normalized_enrollment', 'normalized_rate_spread']].quantile(0.85).max()
+    plt.ylim([0, limi])
 
     # Customize x-ticks to show only 10 labels
     total_leaids = len(df['leaid'])
-    plt.xticks(ticks=[i for i in range(0, total_leaids, total_leaids // 10)], labels=df['leaid'][::total_leaids // 10], rotation=45)
+    #plt.xticks(ticks=[i for i in range(0, total_leaids, total_leaids // 10)], labels=df['leaid'][::total_leaids // 10], rotation=45)
 
     plt.tight_layout()
 
     # Ensure the directory exists
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    #os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-    plt.savefig(output_path, format='pdf')  # Save as PDF
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    plt.savefig(output_path, format='pdf')
     plt.close()
     print(f"Graph saved to {output_path}")
+
     
 # Retrieve the PostgreSQL_PWD environment variable
 postgresql_pwd = os.getenv('PostgreSQL_PWD')
@@ -86,8 +89,15 @@ conn = psycopg2.connect(
 # Paths for SQL script and output
 sql_script_path = 'leaid_tract_conversion.sql'
 data_query = "SELECT * FROM public.leaid_algii_mortgage_data;"
-#graph_output_path = '../image'
-graph_output_path = 'image/hmda_data_by_leaid.pdf'
+graph_output_path = '../image/hmda_data_by_leaid.pdf'
+
+# Check the current directory
+current_directory = os.getcwd()
+print(f"Current working directory: {current_directory}")
+
+# Define the graph output path (absolute path recommended for clarity)
+graph_output_path = os.path.join(current_directory, 'hmda_data_by_leaid.pdf')
+print(f"Graph will be saved to: {graph_output_path}")
 
 
 # Check if the table exists and run script if it doesn't

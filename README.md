@@ -173,14 +173,18 @@ These subfolders contain various CSV or Excel files which will be converted to C
 
 ### SQL Script
 
-#### 7. `blocks.sql`
-- **Location:** `sql/blocks.sql` within the `sql/` directory.
-- **Purpose:** Contains SQL statements for creating indices to optimize query performance in the "CRDB" schema.
-- **Details:** Creates indices on fields like `LEAID`, `TRACT`, `STATE`, `COUNTY`, and `BLOCK_GEOID` to improve the efficiency of database operations.
+#### 7. `leaid_tract_conversions.sql`
+- **Location:** `sql/leaid_tract_conversions.sql` within the `sql/` directory.
+- **Purpose:** Facilitates critical preprocessing steps for handling LEAID and tract data, ensuring the database is optimized for efficient queries. The script includes preliminary data cleaning, indexing for optimization, and setting up the database schema for detailed educational data analysis. This script should be run AFTER  `scripts/CreateTablesPostgresSQL.py` to configure the database correctly for subsequent data loading and querying operations. 
+- **Weight Assignment**: Weights are calculated based on the land area associated with each block group, ensuring more accurate data representation in analyses. The weights help in adjusting student counts and other metrics to reflect the proportionate size of each geographical unit. A few notes:
+    - **Zero Land Area**: Block groups with zero land area receive a weight of zero to exclude them from contributing to averages. It is noteworthy that no leaids were made entirely of block groups with zero land area.
+    - **Single LEAID**: Block groups with positive land area contributing to a single LEAID and are assigned a weight of one, to reflect that fact that 100% of the block group contributes to given LEAID.
+    - **Multiple LEAIDs**: For block groups spanning multiple LEAIDs, weights are dynamically calculated based on the ratio of the land area area associated with each LEAID-block-group pair to the total land area associated with each LEAID. The weights for an LEAID sum to 1.
+The functions `get_leaid_students_and_landarea()` and `assign_blkgrp_weights()` encapsulate the logic for computing these weights and are used to update the database accordingly.
+- **Cleaning and Prepration**: To prepare the data, columns were added to existing tables, adjustmented were made to data types, and functions were created. Extensive use of indexing on pivotal columns like LEAID, tract, and block group identifiers to expedite data retrieval operations.
 
-
+  
 ## Assumptions
-
 - **Database Setup:** The PostgreSQL database is pre-configured with the necessary schemas and tables.
 - **File Hierarchy:**
   - SQL scripts are located under the `sql/` directory. For example, the indexing script is found at `sql/blocks.sql`.

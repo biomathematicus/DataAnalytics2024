@@ -87,7 +87,7 @@ conn = psycopg2.connect(
 sql_script_path = 'leaid_tract_conversion.sql'
 data_query = "SELECT * FROM public.leaid_algii_mortgage_data;"
 #graph_output_path = '../image'
-graph_output_path = 'image/'
+graph_output_path = 'image/hmda_data_by_leaid.pdf'
 
 
 # Check if the table exists and run script if it doesn't

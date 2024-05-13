@@ -47,7 +47,7 @@ This README file provides a detailed overview of the scripts included in this re
 
 #### 3. `leaid_hmda_analysis.py` 
 - **Location:** 'scripts' directory
-- **Purpose:** This Python script integrates educational data from LEAIDs with mortgage-related metrics to assess the impact of economic factors on educational outcomes. It executes complex SQL queries to fetch and process data, generates multiple types of visualizations to analyze these relationships, and exports results for further analysis. Specific operations include:
+- **Purpose:** This Python script integrates educational data from LEAIDs with mortgage-related metrics to assess the impact of economic factors on educational outcomes. It executes complex SQL queries to fetch and process data, generates multiple types of visualizations to analyze these relationships, and exports results for further analysis. (Emphasis on this: it is a set up for future analysis). Specific operations include:
   - Checking for the existence of necessary tables and creating them if absent.
   - Normalizing data metrics to make meaningful comparisons across different scales.
   - Producing bar graphs, scatter plots, and histograms to visualize data distributions and correlations.

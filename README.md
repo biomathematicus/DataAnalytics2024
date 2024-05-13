@@ -45,6 +45,32 @@ This README file provides a detailed overview of the scripts included in this re
 - **Features:** Utilizes `pandas` for data manipulation and `psycopg2.extras` for efficient batch database operations.
 - **Data Files:** All txt files in the folder `ACLF_AddressCountListingFiles2020_AllStates` located in the `data` directory.
 
+#### 3. `leaid_hmda_analysis.py` 
+- **Location:** 'scripts' directory
+- **Purpose:** This Python script integrates educational data from LEAIDs with mortgage-related metrics to assess the impact of economic factors on educational outcomes. It executes complex SQL queries to fetch and process data, generates multiple types of visualizations to analyze these relationships, and exports results for further analysis. Specific operations include:
+  - Checking for the existence of necessary tables and creating them if absent.
+  - Normalizing data metrics to make meaningful comparisons across different scales.
+  - Producing bar graphs, scatter plots, and histograms to visualize data distributions and correlations.
+  - Saving visualizations and raw data outputs to specified directories.
+- **Features:**
+  - Uses `pandas` for data handling and transformations.
+  - Employs `matplotlib` and `seaborn` for generating a variety of charts and plots.
+  - Utilizes `psycopg2` to handle database connections and transactions.
+  - Implements error handling to manage database interactions and file operations effectively.
+- **Data Files:** Data is fetched directly from a PostgreSQL database, specifically from tables related to LEAID data and mortgage metrics. The script assumes these tables are already populated and available in the database.
+- **Output:** Graphs are saved in PDF format in the specified 'image' directory, and data tables are exported as CSV files, as well as a txt file with notes, in 'output' directory.
+
+
+### Error Handling
+Includes comprehensive error handling to manage and rollback database transactions if exceptions occur during SQL script executions. Additionally, logs errors during data fetching and graph generation to assist with debugging.
+
+### Dependencies
+- **Python Packages**: `os`, `psycopg2`, `pandas`, `matplotlib`, `seaborn`, `sklearn`
+- **Data Source**: PostgreSQL database with configured tables and access rights.
+
+
+
+
 
 ### SQL Script
 

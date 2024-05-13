@@ -85,7 +85,7 @@ Includes comprehensive error handling to manage and rollback database transactio
   The functions `get_leaid_students_and_landarea()` and `assign_blkgrp_weights()` encapsulate the logic for computing these weights and are used to update the database accordingly.
 - **Cleaning and Prepration**: To prepare the data, columns were added to existing tables, adjustmented were made to data types, and functions were created. Extensive use of indexing on pivotal columns like LEAID, tract, and block group identifiers to expedite data retrieval operations.
 - **RESULTS**: The following functions are notable and are used in `leaid_hmda_analysis.py` within the `script/` directory.
-      ##### 1. `calculate_totals_for_all_leaids`
+    1. `calculate_totals_for_all_leaids`
       - **Location:** public schema of "CRDB"
       - **Purpose:** This function iterates over all LEAIDs, calculating various metrics related to enrollment, population, and their estimated counterparts, along with errors in estimation. It operates by invoking the `calculate_leaid_totals()` function for each LEAID and combines the results with additional information about the number of block groups in each LEAID.
       - **Input:** None
@@ -104,7 +104,7 @@ Includes comprehensive error handling to manage and rollback database transactio
           - Calculates errors in enrollment and population estimation.
           - Cleans up temporary table after processing.
       - **Usage:** This function provides insights into the accuracy of enrollment and population estimations for each LEAID, facilitating further analysis and decision-making based on the data's reliability.
-        ##### 2. `get_algebraii_enrollment_summary_leaid`
+    2. `get_algebraii_enrollment_summary_leaid`
       - **Location:** public schema of "CRDB"
       - **Purpose:** This function computes a summary of Algebra II enrollment statistics for each LEAID. It calculates the total number of males enrolled in Algebra II (`total_algii_males`), the total number of females enrolled in Algebra II (`total_algii_females`), the overall Algebra II enrollment count (`total_algii_enrollment`), and the percentage of students enrolled in Algebra II relative to the general total enrollment (`percentage_algii_enrollment`). It operates by querying the "CRDB" database's `algebraii` table and utilizes the `get_total_students_by_leaid()` function to obtain the general total enrollment for each LEAID. We are only interested in schools that offer Algebra II.
       - **Input:** None
@@ -120,7 +120,7 @@ Includes comprehensive error handling to manage and rollback database transactio
           - Calculates the total Algebra II enrollment by summing up male and female enrollment counts.
           - Computes the percentage of Algebra II enrollment relative to the general total enrollment, handling potential division by zero errors.
       - **Usage:** This function facilitates the assessment of Algebra II enrollment patterns across LEAIDs, aiding in educational policy planning and resource allocation.
-    ##### 3. `get_leaid_algii_mortgage`
+    3. `get_leaid_algii_mortgage`
       - **Location:** public schema of "CRDB"
       - **Purpose:** This function retrieves mortgage data associated with Algebra II enrollment statistics for each LEAID. It fetches information such as the denial count, weighted average rate spread, weighted average minority population, weighted average HUD median family income, and weighted average tract-to-MSAMD income. The function joins the results from `get_algebraii_enrollment_summary_leaid()` with data obtained from `get_hmda_data_per_tract_leaid()` to provide insights into mortgage-related metrics correlated with Algebra II enrollment.
       - **Input:** None

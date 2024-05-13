@@ -534,7 +534,7 @@ BEGIN
 	WHERE
         t.num_tracts >= 1  AND l.num_leaids >= 1
     ORDER BY
-        COALESCE(t.blkgrp, l.blkgrp)
+        COALESCE(t.blkgrp, l.blkgrp);
 END;
 $$ LANGUAGE plpgsql;
 DROP TABLE IF EXISTS blkgrp_positive_landarea_in_multiple_leaids;

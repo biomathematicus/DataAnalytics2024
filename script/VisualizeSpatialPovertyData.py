@@ -93,7 +93,7 @@ COLOR2           = '#0000FF' # Color for scatter points - Higher prop. of enroll
 OutputResolution =  500      # Figure resolution in DPI
 window_width     =  12       # Figure width
 window_height    =  8        # Figure length
-num_terms        =  7        # Number of terms in polynomial approximation to PDF function   
+num_terms        =  4        # Number of terms in polynomial approximation to PDF function   
 generate_figs    = True      # Flag to generate figures  
 skip_state_maps  = True      # Flag to skip state map generation  
 state_string = [
@@ -425,11 +425,29 @@ plt.ylabel('Runtime [s]')
 plt.savefig('../Figures/runtime.png', dpi=OutputResolution)
 plt.close()
 
-mean_state_performance = np.mean(state_performance)
+# Analyze State Perfomance
+upperlimit = np.percentile(state_performance, 96) # The upper limit of the heatmap will be the 96th percentile
+midpoint = np.mean(state_performance)
+# midpoint   = np.percentile(state_performance, 50) # The midpoint of the heatmap will be the 50th percentile
+print('upperlimit >> ', upperlimit)
+fig, ax1 = plt.subplots(1, figsize=(7, 4))
+plt.xlabel('State Performance', size=sz)
+ax1.set_ylabel('PDF', size=sz)
+ax1.hist(state_performance, bins='auto', density=True, color='k', alpha=0.25, label='Histogram')
+ax1.plot([upperlimit, upperlimit], [0, 7], 'r--', label='95th Percentile')
+fig.tight_layout()  # To ensure the right y-label is not slightly clipped
+plt.savefig('../Figures/StatePerformanceHistogram.png', dpi=OutputResolution)
+plt.close()
 
-# print(state_performance)
+
+# Cap extreme of state_performance at 96th percentile
+state_performance_copy = state_performance
+state_performance_copy[state_performance>upperlimit] = upperlimit
 state_group = {'STATEFP': FIP_state,
-                'state_performance': state_performance}
+                'state_performance': state_performance_copy}
+print('\nMinimum  ', min(state_performance_copy))
+print('Midpoint ', midpoint)
+print('Maximum  ', upperlimit)
 
 # Analyze Country-wide performance indices
 shapefile_states_path = '../shape_files/tl_2023_us_state/tl_2023_us_state.shp'
@@ -441,12 +459,15 @@ fig, ax = plt.subplots(1, figsize=(window_width, window_height))
 fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
 ax.axis('off')
 
+
 # User-defined colormap from red to blue
-color_list = ['red', 'white', 'blue']  # Colors from blue to white to red
+color_list = ['red', 'blue']  # Colors from blue to white to red
+# color_list = ['red', 'white', 'blue']  # Colors from blue to white to red
 cmap_name = 'MyCmapName'
-positions = ([0.0, mean_state_performance, max(state_performance)]-min(state_performance))/(max(state_performance)-min(state_performance))
+positions = ([min(state_performance), upperlimit]-min(state_performance))/(upperlimit-min(state_performance))
+# positions = ([min(state_performance), midpoint, upperlimit]-min(state_performance))/(upperlimit-min(state_performance))
 cm1 = mcol.LinearSegmentedColormap.from_list(cmap_name, list(zip(positions, color_list)))
-cnorm = mcol.Normalize(vmin=min(state_performance), vmax=max(state_performance))
+cnorm = mcol.Normalize(vmin=min(state_performance), vmax=upperlimit)
 sm = cm.ScalarMappable(norm=cnorm, cmap=cm1)
 sm.set_array([])  
 states_shp.plot(column='state_performance', ax=ax, edgecolor='0', linewidth=1, cmap=cm1)

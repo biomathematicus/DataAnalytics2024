@@ -4,3 +4,5 @@ data/*
 .vscode/*
 # Ignore the mac desktop file
 .DS_Store
+# Ignore shapefiles
+shape_files/*

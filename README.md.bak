@@ -1,12 +1,12 @@
 # ANALYSYS PIPELINE FOR EDUCATIONAL ATTAINTMENT IN THE US
 
-# 1. Project Scripts Documentation
+# Project Scripts Documentation
 
 This README file provides a detailed overview of the scripts included in this repository, their purpose, and how to use them. The scripts are designed to work with PostgreSQL and perform various tasks related to database management and data processing.
 
-# 2. Files Description
+## Files Description
 
-##  2.1. Data Overview
+### Data Overview
 1. 2017-18 Civil Rights Data Collection (CRDC): Provides achievement metrics for U.S. middle and high schools, foundational for analyzing educational performance and demographic impacts.
 URL: [CRDC](https://ocrdata.ed.gov/)
 2. Small Area Income and Poverty Estimates (SAIPE): Offers annual income and poverty statistics by school district, allowing analysis of economic conditions alongside educational achievements.
@@ -23,27 +23,23 @@ URL: [ACLF](https://www.census.gov/geographies/reference-files/2020/geo/2020addc
 **Data Organization**
 All raw data must be stored in a directory named "data" at the work directory. This directory includes several subfolders:
 
-```
-../data/GRF17
+`../data/GRF17
 ../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV
 ../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV
 ../data/2017-18-crdc-data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV
 ../data/hmda_2017_nationwide_all-records_labels
 ../data/EDGE_GEOCODE_PUBLICLEA_1718
 ../data`
-```
 
 These subfolders contain various CSV or Excel files which will be converted to CSV if necessary, and then saved as tables in PostgreSQL under the following names:
 
-```
-GRF17
+`GRF17
 CRDC_SCH
 CRDC_SCH_EDFacts
 CRDC_LEA
 HMDA
 GEOCODE
-ussd17_edited
-```
+ussd17_edited`
 
 **Shapefiles Overview**
   - **Source:** The shapefiles are downloaded from the U.S. Census Bureau, specifically from their TIGER/Line files. These files are a comprehensive source of geographic data that provides detailed information about various geographical and administrative boundaries in the United States.
@@ -55,9 +51,9 @@ ussd17_edited
     - **Access:** Files are accessed via the FTP archive, which allows for direct download of the latest available data for each year, ensuring the maps reflect current administrative boundaries and geographical data.
     - **Organization:** The shape files must be saved in a folder called "shape_files" in order to be called as follow: `../shape_files/tl_2018_us_county/tl_2018_us_county.shp` for the county shape file, and `../shape_files/tl_2023_us_state/tl_2023_us_state.shp` for the state shape file. 
 
-## 2.2. Python Scripts
+### Python Scripts
 
-### 2.2.1. `CreateTablesPostgresSQL_MacVersion.py`
+#### 1. `CreateTablesPostgresSQL_MacVersion.py`
 - **Location:** 'script' directory.
 - **Purpose:** Manages PostgreSQL database operations on macOS, installs required packages from `requirements.txt`, and executes SQL commands to set up the database schema.
 - **Detailed Processing Workflow:**
@@ -75,16 +71,15 @@ ussd17_edited
     - Executes these SQL files against a PostgreSQL database to populate tables.
 - **Dependencies:** Requires `psycopg2` library for database operations and `subprocess` for executing pip commands.
 - **Data Files:** The data should be stored in the following subdirectories:
-  ```
-  ../data/GRF17
-  ../data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV
-  ../data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV
-  ../data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV
-  ../data/hmda_2017_nationwide_all-records_labels
-  ../data/EDGE_GEOCODE_PUBLICLEA_1718
-  ../data/ussd17
-  ```
-### 2.2.2. `CreateTablesPostgresSQL.py`
+  - `../data/GRF17`
+  - `../data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV`
+  - `../data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV`
+  - `../data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV`
+  - `../data/hmda_2017_nationwide_all-records_labels`
+  - `../data/EDGE_GEOCODE_PUBLICLEA_1718`
+  - `../data/ussd17`
+
+#### 2. `CreateTablesPostgresSQL.py`
 - **Location:** 'script' directory.
 - **Purpose:** Automate the setup and preparation of a PostgreSQL database for analyzing educational data. It handles the entire workflow of importing, cleaning, and setting up database tables directly from raw data files.
 - **Detailed Processing Workflow:** 
@@ -115,7 +110,7 @@ ussd17_edited
 - **Data Files:** This script uses the data explained on Data Overview. 
 - **Output:** The script creates a SQL script in the "SQL" folder and generates the tables in PostgreSQL under the name of "CRDB". 
 
-### 2.2.3. `AnalyzeConvergence.py`
+#### 3. `AnalyzeConvergence.py`
 - **Location:** 'script' directory.
 - **Purpose:** Automates the process of finding the best polynomial fit for an histogram representing the proportion of children aged 5 to 17 in poverty for each state. The script iterates through different degrees of polynomials to minimize the root mean square error (RMSE), thus identifying the degree with the minimum error.
 - **Detailed Processing Workflow:** 
@@ -130,7 +125,7 @@ ussd17_edited
 - **Dependencies:** Requires `psycopg2`, `geopandas`, `matplotlib`. It is necessary to create a folder in the work directory called "Figures" and a subfolder called "Convergence". 
 - **Data Files:** The script calls executes several SQL queries to obtain the source data for the histograms. 
 
-### 2.2.4. `VisualizeSpatialPovertyData.py`
+#### 4. `VisualizeSpatialPovertyData.py`
 - **Location:**  'script' directory.
 - **Purpose:** Automates the visual representation of poverty data and algebra II enrollment across various geographical divisions, and identifies patterns and disparities in educational and economic metrics. It visually represents these metrics in several forms including histograms, maps, and heatmaps.
 - **Detailed Processing Workflow:**
@@ -156,14 +151,14 @@ ussd17_edited
 - **Output:** Generates and saves visualizations in a structured folder system within the "Figures" directory, which includes subfolders for different types of visual data.
 - **Data Files:** Utilizes data extracted from SQL databases and processed for visualization purposes. Shape files from all the counties and states were also used to create the map figures. Refer to Data Overview to check it. 
 
-### 2.2.5. `CreateLaTeXAppendix.py`
+#### 5. `CreateLaTeXAppendix.py`
 - **Purpose:** The script automates the generation of a LaTeX document which integrates visual outputs from other analytical processes. Specifically, it compiles heatmaps of average family income and average loan amounts by county, along with histograms into a cohesive LaTeX document, and subsequently generates a PDF.
 - **Functionality:**
   - **Data Collection:** The script retrieves heatmap and histogram files previously generated by other scripts in the project.
   - **LaTeX Script Generation:** It dynamically generates LaTeX code to embed these visualizations in an organized manner. The LaTeX code includes formatting and layout configurations to ensure the visualizations are displayed effectively.
   - **Output:** The final output is a LaTeX file that systematically presents all the visual data concerning family income, loans, and other relevant metrics, making it a valuable reference document for stakeholders or researchers who require detailed visual insights into the data.
 
-### 2.2.6. `CreatingAddressTableFromACLFTxt.py`
+#### 6. `CreatingAddressTableFromACLFTxt.py`
 - **Location:** 'scripts' directory
 - **Purpose:** This Python script reads 52 txt files in `data/ACLF_AddressCountListingFiles2020_AllStates` and creates an address table in a PostgreSQL database by doing the following:
 - Setting the schema search path in PostgreSQL.
@@ -174,7 +169,7 @@ ussd17_edited
 - **Features:** Utilizes `pandas` for data manipulation and `psycopg2.extras` for efficient batch database operations.
 - **Data Files:** All txt files in the folder `ACLF_AddressCountListingFiles2020_AllStates` located in the `data` directory.
 
-### 2.2.7. `leaid_hmda_analysis.py` 
+#### 7. `leaid_hmda_analysis.py` 
 - **Location:** 'scripts' directory
 - **Purpose:** This Python script integrates educational data from LEAIDs with mortgage-related metrics to assess the impact of economic factors on educational outcomes. It executes complex SQL queries to fetch and process data, generates multiple types of visualizations to analyze these relationships, and exports results for further analysis. (Emphasis on this: it is a set up for future analysis). Specific operations include:
   - Checking for the existence of necessary tables and creating them if absent.
@@ -189,16 +184,21 @@ ussd17_edited
 - **Data Files:** Data is fetched directly from a PostgreSQL database, specifically from tables related to LEAID data and mortgage metrics. The script assumes these tables are already populated and available in the database.
 - **Output:** Graphs are saved in PDF format in the specified 'image' directory, and data tables are exported as CSV files, as well as a txt file with notes, in 'output' directory.
 
-## 2.3. Error Handling
+
+### Error Handling
 Includes comprehensive error handling to manage and rollback database transactions if exceptions occur during SQL script executions. Additionally, logs errors during data fetching and graph generation to assist with debugging.
 
-## 2.4. Dependencies
+### Dependencies
 - **Python Packages**: `os`, `psycopg2`, `pandas`, `matplotlib`, `seaborn`, `sklearn`
 - **Data Source**: PostgreSQL database with configured tables and access rights.
 
-# 3. SQL Script
 
-## 3.1. `leaid_tract_conversions.sql`
+
+
+
+### SQL Script
+
+#### 1. `leaid_tract_conversions.sql`
 - **Location:** `sql/leaid_tract_conversions.sql` within the `script/` directory.
 - **Purpose:** Facilitates critical preprocessing steps for handling LEAID and tract data, ensuring the database is optimized for efficient queries. The script includes preliminary data cleaning, indexing for optimization, and setting up the database schema for detailed educational data analysis. This script should be run AFTER  `scripts/CreateTablesPostgresSQL.py` to configure the database correctly for subsequent data loading and querying operations. 
 - **Weight Assignment**: Weights are calculated based on the land area associated with each block group, ensuring more accurate data representation in analyses. The weights help in adjusting student counts and other metrics to reflect the proportionate size of each geographical unit. A few notes:
@@ -221,13 +221,12 @@ Includes comprehensive error handling to manage and rollback database transactio
           - `estimated_leaid_population`: Estimated population count for the LEAID
           - `pop_error`: Error in population count estimation (the difference between total population and estimated population)
           - `num_blks_in_leaid`: Number of block groups within the LEAID
-          - **Implementation Details:**
+      - **Implementation Details:**
           - Temporarily creates a table to store distinct LEAIDs.
           - Iterates over each LEAID, invoking `calculate_leaid_totals()` and joining the results with additional block group information.
           - Calculates errors in enrollment and population estimation.
           - Cleans up temporary table after processing.
-          - **Usage:** This function provides insights into the accuracy of enrollment and population estimations for each LEAID, facilitating further analysis and decision-making based on the data's reliability.
-      
+      - **Usage:** This function provides insights into the accuracy of enrollment and population estimations for each LEAID, facilitating further analysis and decision-making based on the data's reliability.
     2. `get_algebraii_enrollment_summary_leaid`
       - **Location:** public schema of "CRDB"
       - **Purpose:** This function computes a summary of Algebra II enrollment statistics for each LEAID. It calculates the total number of males enrolled in Algebra II (`total_algii_males`), the total number of females enrolled in Algebra II (`total_algii_females`), the overall Algebra II enrollment count (`total_algii_enrollment`), and the percentage of students enrolled in Algebra II relative to the general total enrollment (`percentage_algii_enrollment`). It operates by querying the "CRDB" database's `algebraii` table and utilizes the `get_total_students_by_leaid()` function to obtain the general total enrollment for each LEAID. We are only interested in schools that offer Algebra II.
@@ -239,11 +238,11 @@ Includes comprehensive error handling to manage and rollback database transactio
           - `total_algii_enrollment`: Total enrollment in Algebra II
           - `general_total_enrollment`: General total enrollment for the LEAID
           - `percentage_algii_enrollment`: Percentage of students enrolled in Algebra II relative to the general total enrollment
-        - **Implementation Details:**
+      - **Implementation Details:**
           - Aggregates male and female enrollment counts separately, considering only non-negative values.
           - Calculates the total Algebra II enrollment by summing up male and female enrollment counts.
           - Computes the percentage of Algebra II enrollment relative to the general total enrollment, handling potential division by zero errors.
-        - **Usage:** This function facilitates the assessment of Algebra II enrollment patterns across LEAIDs, aiding in educational policy planning and resource allocation.
+      - **Usage:** This function facilitates the assessment of Algebra II enrollment patterns across LEAIDs, aiding in educational policy planning and resource allocation.
     3. `get_leaid_algii_mortgage`
       - **Location:** public schema of "CRDB"
       - **Purpose:** This function retrieves mortgage data associated with Algebra II enrollment statistics for each LEAID. It fetches information such as the denial count, weighted average rate spread, weighted average minority population, weighted average HUD median family income, and weighted average tract-to-MSAMD income. The function joins the results from `get_algebraii_enrollment_summary_leaid()` with data obtained from `get_hmda_data_per_tract_leaid()` to provide insights into mortgage-related metrics correlated with Algebra II enrollment.
@@ -257,18 +256,18 @@ Includes comprehensive error handling to manage and rollback database transactio
           - `weighted_avg_minority_population`: Weighted average minority population
           - `weighted_avg_hud_median_family_income`: Weighted average HUD median family income
           - `weighted_avg_tract_to_msamd_income`: Weighted average tract-to-MSAMD income
-        - **Implementation Details:**
+      - **Implementation Details:**
           - Joins the results from `get_algebraii_enrollment_summary_leaid()` with data obtained from `get_hmda_data_per_tract_leaid()` based on the LEAID.
           - Aggregates mortgage-related metrics such as denial count and weighted averages.
-        - **Usage:** This function enables the examination of potential correlations between Algebra II enrollment rates and mortgage-related factors, aiding in understanding socioeconomic dynamics within educational contexts.
-        - **Note:** The function creates or replaces a table `leaid_algii_mortgage_data` to store the results for further analysis.
+      - **Usage:** This function enables the examination of potential correlations between Algebra II enrollment rates and mortgage-related factors, aiding in understanding socioeconomic dynamics within educational contexts.
+      - **Note:** The function creates or replaces a table `leaid_algii_mortgage_data` to store the results for further analysis.
 
-## 3.2. `blocks.sql`
+#### 2. `blocks.sql`
 - **Location:** `sql/blocks.sql` within the `sql/` directory.
 - **Purpose:** Contains SQL statements for creating indices to optimize query performance in the "CRDB" schema.
 - **Details:** Creates indices on fields like `LEAID`, `TRACT`, `STATE`, `COUNTY`, and `BLOCK_GEOID` to improve the efficiency of database operations.
 
-# 4. Assumptions
+## Assumptions
 
 - **Database Setup:** The PostgreSQL database is pre-configured with the necessary schemas and tables.
 - **File Hierarchy:**

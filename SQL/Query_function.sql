@@ -1,56 +1,62 @@
-
-
-CREATE OR REPLACE FUNCTION "CRDB".HSTOTALS()
-RETURNS TABLE(LEA_STATE VARCHAR(300), LEAID VARCHAR(300), LEA_NAME VARCHAR(300), SCHID VARCHAR(300), 
-			 SCH_NAME VARCHAR(300), TOTAL INT, AdvMath INT, APMath INT, 
-			 APScience INT, APOthers INT, AlgII INT, Bio INT, 
-			 Cal INT, Chem INT, Geo INT, Phy INT) AS
+--drop  function "CRDB".hstotals()
+create or replace function "CRDB".hstotals()
+returns table(lea_state varchar(300), leaid varchar(300), lea_name varchar(300), 
+			 lea_city varchar(300), lea_zip varchar(300), schid varchar(300), 
+			 sch_name varchar(300), total int, advmath int, apmath int, 
+			 apscience int, apothers int, algii int, bio int, 
+			 cal int, chem int, geo int, phy int) as
 $$
-BEGIN RETURN QUERY
-SELECT E."LEA_STATE", E."LEAID", E."LEA_NAME", E."SCHID", E."SCH_NAME",  
-		CAST("TOT_ENR_M" AS INTEGER) + CAST("TOT_ENR_F" AS INTEGER) AS TOTAL,
-		CAST("TOT_MATHENR_ADVM_M" AS INTEGER) + CAST("TOT_MATHENR_ADVM_F" AS INTEGER) AS AdvMath,
-		CAST("TOT_APMATHENR_M" AS INTEGER) + CAST("TOT_APMATHENR_F" AS INTEGER) AS APMath,
-		CAST("TOT_APSCIENR_M" AS INTEGER) + CAST("TOT_APSCIENR_F" AS INTEGER) AS APScience,
-		CAST("TOT_APOTHENR_M" AS INTEGER) + CAST("TOT_APOTHENR_F" AS INTEGER) AS APOthers,
-		CAST("TOT_MATHENR_ALG2_M" AS INTEGER) + CAST("TOT_MATHENR_ALG2_F" AS INTEGER) AS AlgII,
-		CAST("TOT_SCIENR_BIOL_M" AS INTEGER) + CAST("TOT_SCIENR_BIOL_F" AS INTEGER) AS Bio,
-		CAST("TOT_MATHENR_CALC_M" AS INTEGER) + CAST("TOT_MATHENR_CALC_F" AS INTEGER) AS Cal,
-		CAST("TOT_SCIENR_CHEM_M" AS INTEGER) + CAST("TOT_SCIENR_CHEM_F" AS INTEGER) AS Chem,
-		CAST("TOT_MATHENR_GEOM_M" AS INTEGER) + CAST("TOT_MATHENR_GEOM_F" AS INTEGER) AS Geo,
-		CAST("TOT_SCIENR_PHYS_M" AS INTEGER) + CAST("TOT_SCIENR_PHYS_F" AS INTEGER) AS Phy
-FROM 	"CRDB".schoolcharacteristics SC
-		JOIN "CRDB".enrollment E 
-		ON SC."SCHID" = E."SCHID" AND SC."LEAID" = E."LEAID"
-		JOIN "CRDB".advancedmathematics AV
-		ON AV."SCHID" = E."SCHID" AND AV."LEAID" = E."LEAID"
-		JOIN "CRDB".advancedplacement AP
-		ON AP."SCHID" = E."SCHID" AND AP."LEAID" = E."LEAID"
-		JOIN "CRDB".algebraii Alg2
-		ON Alg2."SCHID" = E."SCHID" AND Alg2."LEAID" = E."LEAID"
-		JOIN "CRDB".biology Bio
-		ON Bio."SCHID" = E."SCHID" AND Bio."LEAID" = E."LEAID"
-		JOIN "CRDB".calculus Cal
-		ON Cal."SCHID" = E."SCHID" AND Cal."LEAID" = E."LEAID"
-		JOIN "CRDB".chemistry Che
-		ON Che."SCHID" = E."SCHID" AND Che."LEAID" = E."LEAID"
-		JOIN "CRDB".geometry Geo
-		ON Geo."SCHID" = E."SCHID" AND Geo."LEAID" = E."LEAID"
-		JOIN "CRDB".physics Phy
-		ON Phy."SCHID" = E."SCHID" AND Phy."LEAID" = E."LEAID"
-WHERE	"SCH_GRADE_G09" = 'Yes'
-		AND "SCH_GRADE_G10"  = 'Yes'
-		AND "SCH_GRADE_G11" = 'Yes'
-		AND "SCH_GRADE_G12" = 'Yes'
-		AND CAST("TOT_ENR_M" AS INTEGER) >= 0
-		AND CAST("TOT_ENR_F" AS INTEGER) >= 0
-		AND CAST("TOT_ENR_M" AS INTEGER) + CAST("TOT_ENR_F" AS INTEGER) > 0
-ORDER BY E."LEA_STATE", E."LEA_NAME", E."SCH_NAME";
-END;
-$$ LANGUAGE plpgsql
+begin return query
+
+select e."lea_state", e."leaid", e."lea_name", lc."lea_city", lc."lea_zip", e."schid", e."sch_name",  
+		cast(tot_enr_m as integer) + cast(tot_enr_f as integer) as total,
+		cast(tot_mathenr_advm_m as integer) + cast(tot_mathenr_advm_f as integer) as advmath,
+		cast(tot_apmathenr_m as integer) + cast(tot_apmathenr_f as integer) as apmath,
+		cast(tot_apscienr_m as integer) + cast(tot_apscienr_f as integer) as apscience,
+		cast(tot_apothenr_m as integer) + cast(tot_apothenr_f as integer) as apothers,
+		cast(tot_mathenr_alg2_m as integer) + cast(tot_mathenr_alg2_f as integer) as algii,
+		cast(tot_scienr_biol_m as integer) + cast(tot_scienr_biol_f as integer) as bio,
+		cast(tot_mathenr_calc_m as integer) + cast(tot_mathenr_calc_f as integer) as cal,
+		cast(tot_scienr_chem_m as integer) + cast(tot_scienr_chem_f as integer) as chem,
+		cast(tot_mathenr_geom_m as integer) + cast(tot_mathenr_geom_f as integer) as geo,
+		cast(tot_scienr_phys_m as integer) + cast(tot_scienr_phys_f as integer) as phy
+from 	"CRDB".schoolcharacteristics sc
+		join "CRDB".enrollment e 
+		on sc.schid = e.schid and sc.leaid = e.leaid
+		join "CRDB".leacharacteristics as lc
+		on sc.leaid = lc.leaid
+		join "CRDB".advancedmathematics av
+		on av.schid = e.schid and av.leaid = e.leaid
+		join "CRDB".advancedplacement ap
+		on ap.schid = e.schid and ap.leaid = e.leaid
+		join "CRDB".algebraii alg2
+		on alg2.schid = e.schid and alg2.leaid = e.leaid
+		join "CRDB".biology bio
+		on bio.schid = e.schid and bio.leaid = e.leaid
+		join "CRDB".calculus cal
+		on cal.schid = e.schid and cal.leaid = e.leaid
+		join "CRDB".chemistry che
+		on che.schid = e.schid and che.leaid = e.leaid
+		join "CRDB".geometry geo
+		on geo.schid = e.schid and geo.leaid = e.leaid
+		join "CRDB".physics phy
+		on phy.schid = e.schid and phy.leaid = e.leaid
+where	sch_grade_g09 = 'Yes'
+		and sch_grade_g10  = 'Yes'
+		and sch_grade_g11 = 'Yes'
+		and sch_grade_g12 = 'Yes'
+		and cast(tot_enr_m as integer) >= 0
+		and cast(tot_enr_f as integer) >= 0
+		and cast(tot_enr_m as integer) + cast(tot_enr_f as integer) > 0
+order by e.lea_state, e.lea_name, e.sch_name;
+
+end;
+$$ language plpgsql
 
 /* 
-After the query is created, you can see the table by using this following command:
+after the query is created, you can see the table by using this following command:
 
-SELECT * FROM HSTOTALS();
+select * from "CRDB".hstotals();
+
+
 */

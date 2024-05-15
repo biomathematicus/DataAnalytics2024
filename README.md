@@ -4,7 +4,20 @@
 
 This README file provides a detailed overview of the scripts included in this repository, their purpose, and how to use them. The scripts are designed to work with PostgreSQL and perform various tasks related to database management and data processing.
 
-To initiate the process of importing data and computing results, start by creating a database called `CRDB` in PostgreSQL, then run the file `/script/main.py`.
+To initiate the process of importing data and computing results, start by creating a database called `CRDB` in PostgreSQL, then run the file `/script/main.py`. This script will import all data, provided it has been organized as instructed below, and will produce all results of analysis. 
+
+This project was directed by Prof. [Juan B Gutiérrez](https://biomathematicus.me) for the class Mathematical Foundations of Data Analytics.
+
+Co-investigators: 
+
+- David Risk <david.risk@utsa.edu>. Contribution: ... 
+- Paula Jaimes Buitron <paula.jaimesbuitron@utsa.edu>. Contribution: ... 
+- Abigaïl Iovino <abigail.iovino@gmail.com>. Contribution: ... 
+- Rene Gabino <rene.gabino@utsa.edu>. Contribution: ... 
+- Nhat Khanh Ho <nhatkhanh.ho@utsa.edu>. Contribution: ... 
+- David Cantu <david.cantu3@utsa.edu>. Contribution: ...
+
+Reference: [arxiv link, and then peer-reviwed link]
 
 # 2. Files Description
 

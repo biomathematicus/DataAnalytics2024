@@ -4,6 +4,8 @@
 
 This README file provides a detailed overview of the scripts included in this repository, their purpose, and how to use them. The scripts are designed to work with PostgreSQL and perform various tasks related to database management and data processing.
 
+To initiate the process of importing data and computing results, start by creating a database called `CRDB` in PostgreSQL, then run the file `/script/main.py`.
+
 # 2. Files Description
 
 ##  2.1. Data Overview

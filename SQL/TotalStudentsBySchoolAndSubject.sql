@@ -1,12 +1,18 @@
-SELECT LEA_STATE, LEAID, LEA_NAME, SCHID, SCH_NAME, TOTAL, 
-       CASE WHEN APMath < 0 THEN NULL ELSE APMath END AS APMath,
-	   CASE WHEN AdvMath < 0 THEN NULL ELSE AdvMath END AS AdvMath,
-	   CASE WHEN APScience < 0 THEN NULL ELSE APScience END AS APScience,
-	   CASE WHEN APOthers < 0 THEN NULL ELSE APOthers END AS APOthers,
-       CASE WHEN AlgII < 0 THEN NULL ELSE AlgII END AS AlgII,
-	   CASE WHEN Bio < 0 THEN NULL ELSE Bio END AS Bio,
-	   CASE WHEN Cal < 0 THEN NULL ELSE Cal END AS Cal,
-	   CASE WHEN Chem < 0 THEN NULL ELSE Chem END AS Chem,
-	   CASE WHEN Geo < 0 THEN NULL ELSE Geo END AS Geo,
-	   CASE WHEN Phy < 0 THEN NULL ELSE Phy END AS Phy
-FROM HSTOTALS();
+copy (
+	select lea_state, leaid, 
+			'"' || lea_name || '"', lea_city, lea_zip, schid, 
+			'"' || sch_name || '"', total, 
+		   case when apmath < 0 then null else apmath end as apmath,
+		   case when advmath < 0 then null else advmath end as advmath,
+		   case when apscience < 0 then null else apscience end as apscience,
+		   case when apothers < 0 then null else apothers end as apothers,
+		   case when algii < 0 then null else algii end as algii,
+		   case when bio < 0 then null else bio end as bio,
+		   case when cal < 0 then null else cal end as cal,
+		   case when chem < 0 then null else chem end as chem,
+		   case when geo < 0 then null else geo end as geo,
+		   case when phy < 0 then null else phy end as phy
+	from "CRDB".hstotals()
+)
+to 	'C:\Dropbox\!JBGCourses\!2024\2024 Data Analytics\github\data\HIGHSCHOOLS.csv' 
+WITH CSV HEADER;

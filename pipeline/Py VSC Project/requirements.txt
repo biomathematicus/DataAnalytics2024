@@ -13,8 +13,5 @@ nbformat==5.10.4
 nbconvert==7.16.4
 nbclient==0.10.0
 ipykernel==6.29.5
-<<<<<<< HEAD
-=======
 psycopg2==2.9.9
->>>>>>> 866f6599c0ead1f798350f0d9850374399b0db9b
 SQLAlchemy==2.0.32

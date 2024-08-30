@@ -1,0 +1,15 @@
+{
+  "name": "Python 3",
+  "image": "python-runner-img",
+  "runArgs": [
+    "--network=datanetwork",
+    "--name=python-runner"
+  ],
+  "extensions": [
+    "ms-python.python"
+  ],
+  "workspaceFolder": "/app",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached"
+  ]
+}

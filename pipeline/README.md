@@ -2,6 +2,11 @@
 
 This project is an automated pipeline producing a data analysis report. The purpose of using automated data download, extraction, cleaning, and processing is to maximize reproducibility of results. 
 
+## View Interactive Reports 
+- https://jsparks9.github.io/edu-data-pipeline/Jupyter%20Output/by_lea_sums.html
+- https://jsparks9.github.io/edu-data-pipeline/Jupyter%20Output/by_school.html
+- https://jsparks9.github.io/edu-data-pipeline/Jupyter%20Output/by_lea.html
+
 ## Setup Instructions
 ### Step 1
 Ensure Docker and Bash are installed

@@ -6,6 +6,7 @@ mkdir "Data"
 (cd Data && mkdir ACLF_States)
 mkdir "Raw Data"
 (cd "Raw Data" && mkdir ACLF_States)
+mkdir "Jupyter Output"
 
 CONTAINER_NAME="python-runner"
 docker exec "$CONTAINER_NAME" sh -c '[ ! -d /app/temp ] && mkdir -p /app/temp'
@@ -41,6 +42,10 @@ sh "./Scripts/09.populate.sh"
 echo $(date +"%T")
 echo "Optimizing SQL Tables"
 sh "./Scripts/10.optimize.sh"
+
+echo $(date +"%T")
+echo "Generating Notebooks"
+sh "./Scripts/11.notebook_gen.sh"
 
 echo $(date +"%T")
 echo "Completed"

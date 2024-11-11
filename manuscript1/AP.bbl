@@ -1,0 +1,421 @@
+%% BioMed_Central_Bib_Style_v1.01
+
+\begin{thebibliography}{30}
+% BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
+\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
+\ifx \binits  \undefined \def \binits#1{#1}\fi
+\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi
+\ifx \batitle  \undefined \def \batitle#1{#1}\fi
+\ifx \bjtitle  \undefined \def \bjtitle#1{#1}\fi
+\ifx \bvolume  \undefined \def \bvolume#1{\textbf{#1}}\fi
+\ifx \byear  \undefined \def \byear#1{#1}\fi
+\ifx \bissue  \undefined \def \bissue#1{#1}\fi
+\ifx \bfpage  \undefined \def \bfpage#1{#1}\fi
+\ifx \blpage  \undefined \def \blpage #1{#1}\fi
+\ifx \burl  \undefined \def \burl#1{\textsf{#1}}\fi
+\ifx \doiurl  \undefined \def \doiurl#1{\url{https://doi.org/#1}}\fi
+\ifx \betal  \undefined \def \betal{\textit{et al.}}\fi
+\ifx \binstitute  \undefined \def \binstitute#1{#1}\fi
+\ifx \binstitutionaled  \undefined \def \binstitutionaled#1{#1}\fi
+\ifx \bctitle  \undefined \def \bctitle#1{#1}\fi
+\ifx \beditor  \undefined \def \beditor#1{#1}\fi
+\ifx \bpublisher  \undefined \def \bpublisher#1{#1}\fi
+\ifx \bbtitle  \undefined \def \bbtitle#1{#1}\fi
+\ifx \bedition  \undefined \def \bedition#1{#1}\fi
+\ifx \bseriesno  \undefined \def \bseriesno#1{#1}\fi
+\ifx \blocation  \undefined \def \blocation#1{#1}\fi
+\ifx \bsertitle  \undefined \def \bsertitle#1{#1}\fi
+\ifx \bsnm \undefined \def \bsnm#1{#1}\fi
+\ifx \bsuffix \undefined \def \bsuffix#1{#1}\fi
+\ifx \bparticle \undefined \def \bparticle#1{#1}\fi
+\ifx \barticle \undefined \def \barticle#1{#1}\fi
+\bibcommenthead
+\ifx \bconfdate \undefined \def \bconfdate #1{#1}\fi
+\ifx \botherref \undefined \def \botherref #1{#1}\fi
+\ifx \url \undefined \def \url#1{\textsf{#1}}\fi
+\ifx \bchapter \undefined \def \bchapter#1{#1}\fi
+\ifx \bbook \undefined \def \bbook#1{#1}\fi
+\ifx \bcomment \undefined \def \bcomment#1{#1}\fi
+\ifx \oauthor \undefined \def \oauthor#1{#1}\fi
+\ifx \citeauthoryear \undefined \def \citeauthoryear#1{#1}\fi
+\ifx \endbibitem  \undefined \def \endbibitem {}\fi
+\ifx \bconflocation  \undefined \def \bconflocation#1{#1}\fi
+\ifx \arxivurl  \undefined \def \arxivurl#1{\textsf{#1}}\fi
+\csname PreBibitemsHook\endcsname
+
+%%% 1
+\bibitem[\protect\citeauthoryear{Curtis et~al.}{2002}]{curtis2002learning}
+\begin{bbook}
+\bauthor{\bsnm{Curtis}, \binits{P.C.}},
+\bauthor{\bsnm{Labov}, \binits{J.B.}},
+\bauthor{\bsnm{Bertenthal}, \binits{M.W.}},
+\bauthor{\bsnm{Gollub}, \binits{J.P.}}:
+\bbtitle{Learning and Understanding: Improving Advanced Study of Mathematics
+  and Science in US High Schools}.
+\bpublisher{National Academies Press}, \blocation{???}
+(\byear{2002})
+\end{bbook}
+\endbibitem
+
+%%% 2
+\bibitem[\protect\citeauthoryear{DiYanni}{2002}]{diyanni2002origins}
+\begin{barticle}
+\bauthor{\bsnm{DiYanni}, \binits{R.}}:
+\batitle{The origins and development of the {AP}, the college board's advanced
+  placement program: Part {I}, american beginnings and american successes.}
+\bjtitle{International Schools Journal}
+\bvolume{22}(\bissue{1}),
+\bfpage{31}--\blpage{42}
+(\byear{2002})
+\end{barticle}
+\endbibitem
+
+%%% 3
+\bibitem[\protect\citeauthoryear{{The College Board}}{}]{apreport23}
+\begin{botherref}
+\oauthor{\bsnm{{The College Board}}}:
+{AP} Program Results: Class of 2023.
+{Accessed on March 7, 2024.
+  https://reports.collegeboard.org/ap-program-results/class-of-2023}
+\end{botherref}
+\endbibitem
+
+%%% 4
+\bibitem[\protect\citeauthoryear{{The College Board}}{}]{apreport}
+\begin{botherref}
+\oauthor{\bsnm{{The College Board}}}:
+The 10th Annual {AP} Report to the Nation.
+Accessed on March 7, 2024.
+  https://secure-media.collegeboard.org/digitalServices/pdf/ap/rtn/10th-annual/10th-annual-ap-report-to-the-nation-single-page.pdf
+\end{botherref}
+\endbibitem
+
+%%% 5
+\bibitem[\protect\citeauthoryear{{The College
+  Board}}{}]{collegeoutcomescomparison}
+\begin{botherref}
+\oauthor{\bsnm{{The College Board}}}:
+College Outcomes Comparisons by {AP} and {N}on-{AP} High School Experiences.
+Accessed on March 7, 2024. https://files.eric.ed.gov/fulltext/ED561030.pdf
+\end{botherref}
+\endbibitem
+
+%%% 6
+\bibitem[\protect\citeauthoryear{}{}]{texas_legislation}
+\begin{botherref}
+House Bill 588.
+Accessed on April 10, 2024
+\end{botherref}
+\endbibitem
+
+%%% 7
+\bibitem[\protect\citeauthoryear{Geiser and Santelices}{2004}]{geiser2004role}
+\begin{botherref}
+\oauthor{\bsnm{Geiser}, \binits{S.}},
+\oauthor{\bsnm{Santelices}, \binits{V.}}:
+The role of advanced placement and honors courses in college admissions.
+Research \& Occasional Paper Series: CSHE 4.04. Berkeley: Center for Studies in
+  Higher Education
+(2004)
+\end{botherref}
+\endbibitem
+
+%%% 8
+\bibitem[\protect\citeauthoryear{Long et~al.}{2012}]{long2012effects}
+\begin{barticle}
+\bauthor{\bsnm{Long}, \binits{M.C.}},
+\bauthor{\bsnm{Conger}, \binits{D.}},
+\bauthor{\bsnm{Iatarola}, \binits{P.}}:
+\batitle{Effects of high school course-taking on secondary and postsecondary
+  success}.
+\bjtitle{American Educational Research Journal}
+\bvolume{49}(\bissue{2}),
+\bfpage{285}--\blpage{322}
+(\byear{2012})
+\end{barticle}
+\endbibitem
+
+%%% 9
+\bibitem[\protect\citeauthoryear{Ackerman et~al.}{2013}]{ackerman2013high}
+\begin{barticle}
+\bauthor{\bsnm{Ackerman}, \binits{P.L.}},
+\bauthor{\bsnm{Kanfer}, \binits{R.}},
+\bauthor{\bsnm{Calderwood}, \binits{C.}}:
+\batitle{High school advanced placement and student performance in college:
+  {STEM} majors, non-{STEM} majors, and gender differences}.
+\bjtitle{Teachers College Record}
+\bvolume{115}(\bissue{10}),
+\bfpage{1}--\blpage{43}
+(\byear{2013})
+\end{barticle}
+\endbibitem
+
+%%% 10
+\bibitem[\protect\citeauthoryear{Gurantz}{2021}]{gurantz2021college}
+\begin{barticle}
+\bauthor{\bsnm{Gurantz}, \binits{O.}}:
+\batitle{How college credit in high school impacts postsecondary course-taking:
+  The role of {A}dvanced {P}lacement exams}.
+\bjtitle{Education Finance and Policy}
+\bvolume{16}(\bissue{2}),
+\bfpage{233}--\blpage{255}
+(\byear{2021})
+\end{barticle}
+\endbibitem
+
+%%% 11
+\bibitem[\protect\citeauthoryear{Solorzano and
+  Ornelas}{2002}]{solorzano2002critical}
+\begin{barticle}
+\bauthor{\bsnm{Solorzano}, \binits{D.G.}},
+\bauthor{\bsnm{Ornelas}, \binits{A.}}:
+\batitle{A critical race analysis of advanced placement classes: A case of
+  educational inequality}.
+\bjtitle{Journal of Latinos and Education}
+\bvolume{1}(\bissue{4}),
+\bfpage{215}--\blpage{229}
+(\byear{2002})
+\end{barticle}
+\endbibitem
+
+%%% 12
+\bibitem[\protect\citeauthoryear{Colgren and
+  Sappington}{2015}]{colgren2015closing}
+\begin{barticle}
+\bauthor{\bsnm{Colgren}, \binits{C.}},
+\bauthor{\bsnm{Sappington}, \binits{N.E.}}:
+\batitle{Closing the achievement gap means transformation.}
+\bjtitle{Education Leadership Review of Doctoral Research}
+\bvolume{2}(\bissue{1}),
+\bfpage{24}--\blpage{33}
+(\byear{2015})
+\end{barticle}
+\endbibitem
+
+%%% 13
+\bibitem[\protect\citeauthoryear{Carter and Welner}{2013}]{carter2013closing}
+\begin{bbook}
+\bauthor{\bsnm{Carter}, \binits{P.L.}},
+\bauthor{\bsnm{Welner}, \binits{K.G.}}:
+\bbtitle{Closing the Opportunity Gap: What America Must do to Give Every Child
+  an Even Chance}.
+\bpublisher{Oxford University Press, USA}, \blocation{???}
+(\byear{2013})
+\end{bbook}
+\endbibitem
+
+%%% 14
+\bibitem[\protect\citeauthoryear{Duncan and
+  Murnane}{2011}]{whither_opportunity}
+\begin{bbook}
+\bauthor{\bsnm{Duncan}, \binits{G.J.}},
+\bauthor{\bsnm{Murnane}, \binits{R.J.}}:
+\bbtitle{Whither Opportunity?: Rising Inequality, Schools, and Children's Life
+  Chances}.
+\bpublisher{Russell Sage Foundation},
+\blocation{New York}
+(\byear{2011})
+\end{bbook}
+\endbibitem
+
+%%% 15
+\bibitem[\protect\citeauthoryear{Klugman}{2012}]{klugman2012resource}
+\begin{barticle}
+\bauthor{\bsnm{Klugman}, \binits{J.}}:
+\batitle{How resource inequalities among high schools reproduce class
+  advantages in college destinations}.
+\bjtitle{Research in Higher Education}
+\bvolume{53},
+\bfpage{803}--\blpage{830}
+(\byear{2012})
+\end{barticle}
+\endbibitem
+
+%%% 16
+\bibitem[\protect\citeauthoryear{Ladson-Billings}{2006}]{ladson2006achievement}
+\begin{barticle}
+\bauthor{\bsnm{Ladson-Billings}, \binits{G.}}:
+\batitle{From the achievement gap to the education debt: Understanding
+  achievement in {US} schools}.
+\bjtitle{Educational researcher}
+\bvolume{35}(\bissue{7}),
+\bfpage{3}--\blpage{12}
+(\byear{2006})
+\end{barticle}
+\endbibitem
+
+%%% 17
+\bibitem[\protect\citeauthoryear{Orfield and
+  McArdle}{2006}]{orfield2006vicious}
+\begin{bbook}
+\bauthor{\bsnm{Orfield}, \binits{G.}},
+\bauthor{\bsnm{McArdle}, \binits{N.}}:
+\bbtitle{The Vicious Cycle: Segregated Housing, Schools and Intergenerational
+  Inequality}.
+\bpublisher{Joint Center for Housing Studies, Harvard University},
+  \blocation{???}
+(\byear{2006})
+\end{bbook}
+\endbibitem
+
+%%% 18
+\bibitem[\protect\citeauthoryear{Pattillo}{2018}]{pattillo2018black}
+\begin{bchapter}
+\bauthor{\bsnm{Pattillo}, \binits{M.}}:
+\bctitle{Black picket fences: Privilege and peril among the black middle
+  class}.
+In: \bbtitle{Inequality in the 21st Century},
+pp. \bfpage{336}--\blpage{338}.
+\bpublisher{Routledge}, \blocation{???}
+(\byear{2018})
+\end{bchapter}
+\endbibitem
+
+%%% 19
+\bibitem[\protect\citeauthoryear{Swaby}{}]{texas_tribune_school_funding}
+\begin{botherref}
+\oauthor{\bsnm{Swaby}, \binits{A.}}:
+\MakeUppercase{"Texas' School Finance System Is Unpopular and Complex. Here's
+  How It Works,"} \textit{\uppercase{T}he \uppercase{T}exas
+  \uppercase{T}ribune}, \uppercase{F}ebruary 15, 2019.
+Accessed on July 14, 2024.
+  https://www.texastribune.org/2019/02/15/texas-school-funding-how-it-works/
+\end{botherref}
+\endbibitem
+
+%%% 20
+\bibitem[\protect\citeauthoryear{Hanushek and
+  Lindseth}{2009}]{hanushek2009schoolhouses}
+\begin{bbook}
+\bauthor{\bsnm{Hanushek}, \binits{E.A.}},
+\bauthor{\bsnm{Lindseth}, \binits{A.A.}}:
+\bbtitle{Schoolhouses, Courthouses, and Statehouses: Solving the
+  Funding-achievement Puzzle in America's Public Schools}.
+\bpublisher{Princeton University Press}, \blocation{???}
+(\byear{2009})
+\end{bbook}
+\endbibitem
+
+%%% 21
+\bibitem[\protect\citeauthoryear{Wilkins and Staff}{2006}]{wilkins2006yes}
+\begin{botherref}
+\oauthor{\bsnm{Wilkins}, \binits{A.}},
+\oauthor{\bsnm{Staff}, \binits{E.T.}}:
+Yes we can: Telling truths and dispelling myths about race and education in
+  {A}merica.
+The Education Trust
+(2006)
+\end{botherref}
+\endbibitem
+
+%%% 22
+\bibitem[\protect\citeauthoryear{Wiener}{2007}]{wiener2007opportunity}
+\begin{barticle}
+\bauthor{\bsnm{Wiener}, \binits{R.}}:
+\batitle{Opportunity gaps: The injustice underneath achievement gaps in our
+  public schools}.
+\bjtitle{N.C. L. Rev.}
+\bvolume{85},
+\bfpage{1315}
+(\byear{2007}).
+\bcomment{Retrieved February 22, 2024 from
+  https://scholarship.law.unc.edu/nclr/vol85/iss5/4}
+\end{barticle}
+\endbibitem
+
+%%% 23
+\bibitem[\protect\citeauthoryear{Phillips}{}]{texas_standard_school_funding}
+\begin{botherref}
+\oauthor{\bsnm{Phillips}, \binits{C.}}:
+\MakeUppercase{"Why Texas School Funding Still Isn’t Fair,"}
+  \textit{\uppercase{T}exas \uppercase{S}tandard}, \uppercase{O}ctober 20,
+  2023.
+Accessed on July 14, 2024.
+  https://www.texasstandard.org/stories/texas-public-school-funding-system-recapture-robin-hood/
+\end{botherref}
+\endbibitem
+
+%%% 24
+\bibitem[\protect\citeauthoryear{{Mayer, Daniel P., Mullens, John E. and Moore,
+  Mary T.}}{2000}]{monitoring_school_quality}
+\begin{bbook}
+\bauthor{\bsnm{{Mayer, Daniel P., Mullens, John E. and Moore, Mary T.}}}:
+\bbtitle{Monitoring School Quality: An Indicators Report, NCES 2001-030}.
+\bpublisher{{National Center for Education Statistics}},
+\blocation{{Washington, DC}}
+(\byear{2000}).
+\bcomment{Retrieved February 22, 2024 from
+  https://nces.ed.gov/pubs2001/2001030.pdf}
+\end{bbook}
+\endbibitem
+
+%%% 25
+\bibitem[\protect\citeauthoryear{Flores}{2007}]{flores2007examining}
+\begin{barticle}
+\bauthor{\bsnm{Flores}, \binits{A.}}:
+\batitle{Examining disparities in mathematics education: Achievement gap or
+  opportunity gap?}
+\bjtitle{The High School Journal}
+\bvolume{91}(\bissue{1}),
+\bfpage{29}--\blpage{42}
+(\byear{2007})
+\end{barticle}
+\endbibitem
+
+%%% 26
+\bibitem[\protect\citeauthoryear{for Civil Rights (U.S. Department~of
+  Education)}{}]{crdc_manual}
+\begin{botherref}
+\oauthor{\bsnm{Education)}, \binits{O.}}:
+\MakeUppercase{2017-18 CRDC Public-Use Data File Manual}.
+Accessed on March 14, 2024.
+  https://civilrightsdata.ed.gov/assets/for-researchers/user-manual/2017-18\%20CRDC\%20Public-Use\%20Data\%20File\%20Manual.pdf
+\end{botherref}
+\endbibitem
+
+%%% 27
+\bibitem[\protect\citeauthoryear{Bureau}{}]{saipe_about}
+\begin{botherref}
+\oauthor{\bsnm{Bureau}, \binits{U.S.C.}}:
+\MakeUppercase{About the Small Area Income and Poverty Estimates (SAIPE)
+  Program}.
+Accessed on March 14, 2024.
+  https://www.census.gov/programs-surveys/saipe/about.html
+\end{botherref}
+\endbibitem
+
+%%% 28
+\bibitem[\protect\citeauthoryear{Bureau}{}]{saipe_2017_school_districts}
+\begin{botherref}
+\oauthor{\bsnm{Bureau}, \binits{U.S.C.}}:
+\MakeUppercase{2017 Small Area Income and Poverty Estimates (SAIPE) for School
+  Districts}.
+Accessed on March 14, 2024.
+  https://www.census.gov/data/datasets/2017/demo/saipe/2017-school-districts.html
+\end{botherref}
+\endbibitem
+
+%%% 29
+\bibitem[\protect\citeauthoryear{of~Texas~at San~Antonio}{}]{utsa_about}
+\begin{botherref}
+\oauthor{\bsnm{San~Antonio}, \binits{U.}}:
+About \uppercase{UTSA}.
+Accessed on March 14, 2024. https://www.utsa.edu/about/
+\end{botherref}
+\endbibitem
+
+%%% 30
+\bibitem[\protect\citeauthoryear{Keith-Spiegel and
+  Wiederman}{2000}]{keith-spiegel_wiederman_2000}
+\begin{bbook}
+\bauthor{\bsnm{Keith-Spiegel}, \binits{P.}},
+\bauthor{\bsnm{Wiederman}, \binits{M.W.}}:
+\bbtitle{The Complete Guide to Graduate School Admission},
+\bedition{2nd} edn.,
+pp. \bfpage{60}--\blpage{68}.
+\bpublisher{Psychology Press}, \blocation{???}
+(\byear{2000})
+\end{bbook}
+\endbibitem
+
+\end{thebibliography}

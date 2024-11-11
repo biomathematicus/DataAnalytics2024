@@ -1,0 +1,118 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: AP.aux
+Reallocating 'name_of_file' (item size: 1) to 16 items.
+The style file: sn-mathphys-num.bst
+Reallocating 'name_of_file' (item size: 1) to 16 items.
+Reallocating 'glb_str_end' (item size: 4) to 20 items.
+Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
+Reallocating 'global_strs' (item size: 1) to 4000000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 6000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Database file #1: sn-bibliography.bib
+Warning--entry type for "apreport" isn't style-file defined
+--line 276 of file sn-bibliography.bib
+Warning--entry type for "collegeoutcomescomparison" isn't style-file defined
+--line 282 of file sn-bibliography.bib
+Warning--entry type for "apreport23" isn't style-file defined
+--line 288 of file sn-bibliography.bib
+Warning--entry type for "crdc_manual" isn't style-file defined
+--line 294 of file sn-bibliography.bib
+Warning--entry type for "texas_legislation" isn't style-file defined
+--line 341 of file sn-bibliography.bib
+Warning--entry type for "texas_tribune_school_funding" isn't style-file defined
+--line 402 of file sn-bibliography.bib
+Warning--entry type for "texas_standard_school_funding" isn't style-file defined
+--line 408 of file sn-bibliography.bib
+Reallocating 'wiz_functions' (item size: 4) to 9000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Warning--to sort, need author or key in texas_legislation
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Warning--"\MakeUppercase{"Texas'" isn't a brace-balanced string for entry texas_tribune_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"works,"}" isn't a brace-balanced string for entry texas_tribune_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"works,"}" isn't a brace-balanced string for entry texas_tribune_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"WORKS,"}" isn't a brace-balanced string for entry texas_tribune_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\textit{\uppercase{T}he" isn't a brace-balanced string for entry texas_tribune_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\uppercase{T}exas \uppercase{T}ribune}, \uppercase{F}ebruary 15, 2019" isn't a brace-balanced string for entry texas_tribune_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\uppercase{T}exas \uppercase{T}ribune}, \uppercase{F}ebruary 15, 2019" isn't a brace-balanced string for entry texas_tribune_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\UPPERCASE{T}EXAS \UPPERCASE{T}RIBUNE}, \UPPERCASE{F}EBRUARY 15, 2019" isn't a brace-balanced string for entry texas_tribune_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\MakeUppercase{"Why" isn't a brace-balanced string for entry texas_standard_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"Fair,"}" isn't a brace-balanced string for entry texas_standard_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\textit{\uppercase{T}exas" isn't a brace-balanced string for entry texas_standard_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\uppercase{S}tandard}, \uppercase{O}ctober 20, 2023" isn't a brace-balanced string for entry texas_standard_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\uppercase{S}tandard}, \uppercase{O}ctober 20, 2023" isn't a brace-balanced string for entry texas_standard_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\UPPERCASE{S}TANDARD}, \UPPERCASE{O}CTOBER 20, 2023" isn't a brace-balanced string for entry texas_standard_school_funding
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"\MakeUppercase{2017-18" isn't a brace-balanced string for entry crdc_manual
+while executing--line 2870 of file sn-mathphys-num.bst
+Warning--"Manual}" isn't a brace-balanced string for entry crdc_manual
+while executing--line 2870 of file sn-mathphys-num.bst
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+You've used 30 entries,
+            7480 wiz_defined-function locations,
+            1343 strings with 15636 characters,
+and the built_in function-call counts, 932449 in all, are:
+= -- 184399
+> -- 605
+< -- 264
++ -- 122672
+- -- 251
+* -- 13854
+:= -- 156577
+add.period$ -- 33
+call.type$ -- 30
+change.case$ -- 354
+chr.to.int$ -- 615
+cite$ -- 32
+duplicate$ -- 880
+empty$ -- 3922
+format.name$ -- 435
+if$ -- 246105
+int.to.chr$ -- 4
+int.to.str$ -- 44
+missing$ -- 0
+newline$ -- 379
+num.names$ -- 145
+pop$ -- 448
+preamble$ -- 1
+purify$ -- 132
+quote$ -- 0
+skip$ -- 114936
+stack$ -- 0
+substring$ -- 82132
+swap$ -- 404
+text.length$ -- 405
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 1119
+warning$ -- 1
+while$ -- 714
+width$ -- 0
+write$ -- 557
+(There were 24 warnings)

@@ -28,13 +28,22 @@ Date: 5/14/2024
 
 import subprocess
 
+# def run_script(script_name):
+#     try:
+#         result = subprocess.run(['./.venv/Scripts/activate && python', script_name], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#         print(f"Output of {script_name}:\n{result.stdout.decode()}")
+#     except subprocess.CalledProcessError as e:
+#         print(f"Error occurred while running {script_name}:\n{e.stderr.decode()}")
+
 def run_script(script_name):
     try:
-        result = subprocess.run(['python', script_name], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # Using 'cmd.exe' and its specific activation syntax
+        command = f"cmd.exe /c .\\.venv\\Scripts\\activate.bat && python {script_name}"
+        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print(f"Output of {script_name}:\n{result.stdout.decode()}")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while running {script_name}:\n{e.stderr.decode()}")
-
+        
 if __name__ == "__main__":
     scripts = ['script\\CreateTablesPostgresSQL.py', 
                'script\\AnalyzeConvergence.py', 

@@ -12,7 +12,7 @@ def install_packages_from_requirements(file_path):
     """
     try:
         # Execute pip install with the --force-reinstall option
-        subprocess.run(['pip', 'install', '-r', file_path], check=True)
+        subprocess.run(['python', '-m','pip', 'install', '-r', file_path], check=True)
         print("All packages have been installed or reinstalled to match the versions specified.")
     except subprocess.CalledProcessError as e:
         print(f"An error occurred while installing packages: {e}")
@@ -152,7 +152,7 @@ def convert_txt_to_csv(txt_file_path):
     return csv_file_path
 
 # install and verify the packages
-install_packages_from_requirements('../requirements_dataAnalytics.txt')
+install_packages_from_requirements('./requirements_dataAnalytics.txt')
 
 import os
 import glob
@@ -165,15 +165,14 @@ ENCODING = 'utf-8'
 # Retrieve the PostgreSQL_PWD environment variable
 postgresql_pwd = os.getenv('PostgreSQL_PWD')
 
-
 # All directories that will be imported to SQL
-all_path_directories = ['../data/GRF17'
-    ,'../data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV'
-    ,'../data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV'
-    ,'../data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV'
-    ,'../data/hmda'
-    ,'../data/EDGE_GEOCODE_PUBLICLEA_1718'
-    ,'../data/ussd17']
+all_path_directories = ['./data/GRF17'
+    ,'./data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV'
+    ,'./data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV'
+    ,'./data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV'
+    ,'./data/EDGE_GEOCODE_PUBLICLEA_1718'
+    ,'./data/ussd17']
+    # ,'./data/hmda'
 
 
 # All directories that will be imported to SQL
@@ -181,18 +180,18 @@ output_sql_name = ['GRF17'
                   ,'CRDC_SCH'
                   ,'CRDC_SCH_EDFacts'
                   ,'CRDC_LEA'
-                  ,'HMDA'
                   ,'GEOCODE'
                   ,'ussd17']
+                  #,'HMDA'
 
 #Change it according with the files that you have in each directory 
 excel_files_exist = [False, #If first time, put TRUE (GRF17)
                      True,
                      True, 
                      True,
-                     False,
                      False, 
                      False] #If first time, put TRUE (ussd17)
+                     #False,
 
 file_number = 0
 for path_directory in all_path_directories:
@@ -223,18 +222,18 @@ for path_directory in all_path_directories:
     csv_files = find_files(path_directory, excel_files)
     print(" ")
     print("Current File >> ")
-    print("../SQL/"+output_sql_name[file_number]+".sql")
+    print("./SQL/"+output_sql_name[file_number]+".sql")
 
     # Check if the copy_commands.sql file exists and erase it
-    if os.path.exists("../SQL/"+output_sql_name[file_number]+".sql"):
-        os.remove("../SQL/"+output_sql_name[file_number]+".sql")
+    if os.path.exists("./SQL/"+output_sql_name[file_number]+".sql"):
+        os.remove("./SQL/"+output_sql_name[file_number]+".sql")
 
     # Create the file with initial SCHEMA command
-    with open("../SQL/"+output_sql_name[file_number]+".sql", 'x', encoding=ENCODING) as copy_commands_file:
+    with open("./SQL/"+output_sql_name[file_number]+".sql", 'x', encoding=ENCODING) as copy_commands_file:
         copy_commands_file.write('CREATE SCHEMA IF NOT EXISTS "CRDB"; \n')
 
     #Create the tables and copy commands 
-    with open("../SQL/"+output_sql_name[file_number]+".sql", 'a', encoding=ENCODING) as copy_commands_file:
+    with open("./SQL/"+output_sql_name[file_number]+".sql", 'a', encoding=ENCODING) as copy_commands_file:
         for file_csv in csv_files:
 
             # Generate the table name based on the file name
@@ -277,9 +276,9 @@ connection = psycopg2.connect(
 )
 
 # List all files in the specified folder
-for filename in os.listdir('../SQL'):
+for filename in os.listdir('./SQL'):
     if filename.endswith('.sql') and not filename.startswith('Khanh'):
         # Construct the full path to the file
-        full_path = os.path.join('../SQL', filename)
+        full_path = os.path.join('./SQL', filename)
         # Execute the SQL file
         execute_sql_file(full_path, connection)

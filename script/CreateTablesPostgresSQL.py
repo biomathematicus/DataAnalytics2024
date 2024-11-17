@@ -1,21 +1,30 @@
 import subprocess
+import time
+import sys
 import re
+import os 
 
-def install_packages_from_requirements(file_path):
+start = time.time()
+
+def install_packages_from_requirements(file_name):
     """
     Install or reinstall packages from a requirements.txt file using pip.
     This forces a reinstall to the specific versions listed in the file.
     
-    Requirements file came from the command: pip freeze > requirements_dataAnalytics.txt
     Args:
-        file_path (str): The path to the requirements.txt file.
+        file_name (str): The name of the requirements.txt file.
     """
     try:
+        # Construct the full path to the requirements file based on the script's directory
+        file_path = os.path.join(os.path.dirname(__file__), file_name)
+        
         # Execute pip install with the --force-reinstall option
-        subprocess.run(['python', '-m','pip', 'install', '-r', file_path], check=True)
+        subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', file_path], check=True)
         print("All packages have been installed or reinstalled to match the versions specified.")
     except subprocess.CalledProcessError as e:
         print(f"An error occurred while installing packages: {e}")
+    except FileNotFoundError:
+        print(f"Could not find the requirements file at {file_path}. Please ensure the file exists.")
 
 
 # Function to execute an SQL file
@@ -86,8 +95,8 @@ def find_files(path_directory, flag_xlsx):
     else:
         list_files = glob.glob(os.path.join(path_directory, '', '*.csv'), recursive=True)
     # Filter out temporary Excel files created by MS Office
-    list_files = [file for file in list_files if not os.path.basename(file).startswith('~$')]
-    print("FIND FILES",flag_xlsx, list_files)
+    # list_files = [file for file in list_files if not os.path.basename(file).startswith('~$')]
+    # print("FIND FILES",flag_xlsx, list_files)
     return list_files
 
 def find_max_char_lengths(csv_file_path):
@@ -101,10 +110,7 @@ def find_max_char_lengths(csv_file_path):
         max_character = int(file_toCheckMax[column].fillna('').astype(str).str.len().max())
         if max_character == 0: 
             max_character = 2
-            
-        max_lengths[column] = max_character
-
-                
+        max_lengths[column] = max_character  
     return max_lengths
 
 def clean_column_name(column_name):
@@ -126,9 +132,9 @@ def convert_excel_to_csv_same_path(excel_file_path):
     # Read the Excel file
     if(base_filename_without_ext == 'ussd17'):
             header_row_index = 2
-            df = pd.read_excel(excel_file_path, header=header_row_index)
-            #df.columns = ["state", "state_FIPS","DistrictID", "NameSchoolDistrict","TotalPopulation", "Population5_17","Population5_17InPoverty"]
-            #df = df.drop([df.index[0], df.index[1]])
+            df = pd.read_excel(excel_file_path, header=header_row_index, dtype=str)
+            df.columns = ["state", "state_FIPS","DistrictID", "NameSchoolDistrict","TotalPopulation", "Population5_17","Population5_17InPoverty"]
+            df = df.drop([df.index[0], df.index[1]])
             csv_file_path = os.path.join(directory, f"{base_filename_without_ext}_edited.csv")
             
     else:
@@ -152,7 +158,7 @@ def convert_txt_to_csv(txt_file_path):
     return csv_file_path
 
 # install and verify the packages
-install_packages_from_requirements('./requirements_dataAnalytics.txt')
+install_packages_from_requirements('../requirements_dataAnalytics.txt')
 
 import os
 import glob
@@ -166,14 +172,14 @@ ENCODING = 'utf-8'
 postgresql_pwd = os.getenv('PostgreSQL_PWD')
 
 # All directories that will be imported to SQL
-all_path_directories = ['./data/GRF17'
-    ,'./data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV'
-    ,'./data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV'
-    ,'./data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV'
-    ,'./data/EDGE_GEOCODE_PUBLICLEA_1718'
-    ,'./data/ussd17']
-    # ,'./data/hmda'
-
+all_path_directories = [os.path.join(os.path.dirname(__file__), '../data/GRF17')
+    ,os.path.join(os.path.dirname(__file__), '../data/2017-18 Public-Use Files/Data/SCH/CRDC/CSV')
+    ,os.path.join(os.path.dirname(__file__), '../data/2017-18 Public-Use Files/Data/SCH/EDFacts/CSV')
+    ,os.path.join(os.path.dirname(__file__), '../data/2017-18 Public-Use Files/Data/LEA/CRDC/CSV')
+    ,os.path.join(os.path.dirname(__file__), '../data/EDGE_GEOCODE_PUBLICLEA_1718')
+    ,os.path.join(os.path.dirname(__file__), '../data')
+    ,os.path.join(os.path.dirname(__file__),'../data/hmda_2017_nationwide_all-records_labels')
+]
 
 # All directories that will be imported to SQL
 output_sql_name = ['GRF17'
@@ -181,17 +187,19 @@ output_sql_name = ['GRF17'
                   ,'CRDC_SCH_EDFacts'
                   ,'CRDC_LEA'
                   ,'GEOCODE'
-                  ,'ussd17']
-                  #,'HMDA'
+                  ,'ussd17'
+                  ,'HMDA'
+]
 
 #Change it according with the files that you have in each directory 
-excel_files_exist = [False, #If first time, put TRUE (GRF17)
-                     True,
-                     True, 
-                     True,
-                     False, 
-                     False] #If first time, put TRUE (ussd17)
-                     #False,
+excel_files_exist = [False  # If first time, put True (GRF17)
+                    ,True
+                    ,True 
+                    ,True
+                    ,False 
+                    ,True # If first time, put TRUE (ussd17)
+                    ,False
+]
 
 file_number = 0
 for path_directory in all_path_directories:
@@ -220,20 +228,24 @@ for path_directory in all_path_directories:
     
     # Find all CSV files at path_directory
     csv_files = find_files(path_directory, excel_files)
-    print(" ")
+    print("\n\n\ncsv_files")
+    print( csv_files )
+    print("path_directory")
+    print( path_directory )
+    print("\n\n\n")
     print("Current File >> ")
-    print("./SQL/"+output_sql_name[file_number]+".sql")
+    print(os.path.join(os.path.dirname(__file__), "../SQL/"+output_sql_name[file_number]+".sql"))
 
     # Check if the copy_commands.sql file exists and erase it
-    if os.path.exists("./SQL/"+output_sql_name[file_number]+".sql"):
-        os.remove("./SQL/"+output_sql_name[file_number]+".sql")
+    if os.path.exists(os.path.join(os.path.dirname(__file__), "../SQL/"+output_sql_name[file_number]+".sql")):
+        os.remove(os.path.join(os.path.dirname(__file__), "../SQL/"+output_sql_name[file_number]+".sql"))
 
     # Create the file with initial SCHEMA command
-    with open("./SQL/"+output_sql_name[file_number]+".sql", 'x', encoding=ENCODING) as copy_commands_file:
+    with open(os.path.join(os.path.dirname(__file__), "../SQL/"+output_sql_name[file_number]+".sql"), 'x', encoding=ENCODING) as copy_commands_file:
         copy_commands_file.write('CREATE SCHEMA IF NOT EXISTS "CRDB"; \n')
 
     #Create the tables and copy commands 
-    with open("./SQL/"+output_sql_name[file_number]+".sql", 'a', encoding=ENCODING) as copy_commands_file:
+    with open(os.path.join(os.path.dirname(__file__), "../SQL/"+output_sql_name[file_number]+".sql"), 'a', encoding=ENCODING) as copy_commands_file:
         for file_csv in csv_files:
 
             # Generate the table name based on the file name
@@ -276,9 +288,22 @@ connection = psycopg2.connect(
 )
 
 # List all files in the specified folder
-for filename in os.listdir('./SQL'):
-    if filename.endswith('.sql') and not filename.startswith('Khanh'):
-        # Construct the full path to the file
-        full_path = os.path.join('./SQL', filename)
-        # Execute the SQL file
-        execute_sql_file(full_path, connection)
+sqls_to_run = ['ussd17.sql'
+              ,'CRDC_LEA.sql'
+              ,'GEOCODE.sql'
+              ,'CRDC_SCH_EDFacts.sql'
+              ,'CRDC_SCH.sql'
+              ,'GRF17.sql'
+              ,'HMDA.sql'
+]
+
+for filename in sqls_to_run:
+    # Construct the full path to the file
+    full_path = os.path.join(os.path.join(os.path.dirname(__file__),'../SQL'), filename)
+    # Execute the SQL file
+    execute_sql_file(full_path, connection)
+
+finish = time.time()
+print(' ')
+print(' ')
+print('Finished CreateTablesPostgreSQL.py: ' + str(finish-start) + ' secs.')

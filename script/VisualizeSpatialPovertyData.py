@@ -10,6 +10,13 @@ import matplotlib.colors as mcol
 import matplotlib.cm as cm
 from   shapely.geometry import box
 
+output_dir = os.path.join(os.path.dirname(__file__), '../Figures/Histograms')
+os.makedirs(output_dir, exist_ok=True)
+output_dir = os.path.join(os.path.dirname(__file__), '../Figures/Income_StateMaps')
+os.makedirs(output_dir, exist_ok=True)
+output_dir = os.path.join(os.path.dirname(__file__), '../Figures/Loan_StateMaps')
+os.makedirs(output_dir, exist_ok=True)
+
 def hist2moments(histogram_data, num_terms, generate_figs, algebra_estimates, COLOR1, COLOR2, sz, OutputResolution, state):
     lw = 2.5
     
@@ -51,7 +58,7 @@ def hist2moments(histogram_data, num_terms, generate_figs, algebra_estimates, CO
         fig.tight_layout()  # To ensure the right y-label is not slightly clipped
         
         plt.gca().xaxis.set_major_formatter(PercentFormatter(1))
-        plt.savefig('../Figures/Histograms/Poverty_vs_Alg2_' + state + '.png', dpi=OutputResolution)
+        plt.savefig(os.path.join(os.path.dirname(__file__), '../Figures/Histograms/Poverty_vs_Alg2_' + state + '.png'), dpi=OutputResolution)
         plt.close()
 
     # Calculate the first four statistical moments
@@ -95,7 +102,7 @@ window_width     =  12       # Figure width
 window_height    =  8        # Figure length
 num_terms        =  4        # Number of terms in polynomial approximation to PDF function   
 generate_figs    = True      # Flag to generate figures  
-skip_state_maps  = True      # Flag to skip state map generation  
+skip_state_maps  = False     # Flag to skip state map generation  
 state_string = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
     'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
@@ -112,7 +119,6 @@ FIP_state = [
     '44', '45', '46', '47', '48', '49', '50', '51', '53', '54',
     '55', '56'
 ]
-
 
 # Main connection to PostgreSQL server
 conn = psycopg2.connect(
@@ -198,7 +204,7 @@ for state,FIPS_state in zip(state_string,FIP_state):
         SUM(CASE WHEN CAST(TOT_MATHENR_ALG2_F AS INTEGER) < 0 THEN 0 ELSE CAST(TOT_MATHENR_ALG2_F AS INTEGER) END) AS sum_tot_alge2_enroll_f, 
         LEAID
     FROM 
-        "CRDB".algebraII
+        "CRDB".algebraii
     WHERE 
         LEAID = ANY(%s)
     GROUP BY 
@@ -245,7 +251,12 @@ for state,FIPS_state in zip(state_string,FIP_state):
         estimated_childrenPoverty.append(row[0])
         estimated_population_5_17.append(row[1])
         leaid_poverty.append(row[2])
-    normalized_estimated_childrenPoverty = (np.array(estimated_childrenPoverty)/np.array(estimated_population_5_17))
+    # normalized_estimated_childrenPoverty = (np.array(estimated_childrenPoverty)/np.array(estimated_population_5_17))
+
+    # Handle NaN and infinite values in division results
+    normalized_estimated_childrenPoverty = np.nan_to_num(
+        np.array(estimated_childrenPoverty) / np.array(estimated_population_5_17), nan=0.0
+    )
 
     # Algebra II table query
     with conn.cursor() as cur_2:
@@ -287,6 +298,7 @@ for state,FIPS_state in zip(state_string,FIP_state):
             index = leaid_algebra.index(leaid_not)
             del leaid_algebra[index]
             algebraII_estimated = np.delete(algebraII_estimated, index)
+
 
     #Create dictionaries for easy lookup
     poverty_dict = dict(zip(leaid_poverty, normalized_estimated_childrenPoverty))
@@ -336,7 +348,7 @@ for state,FIPS_state in zip(state_string,FIP_state):
     geocode_data_gdf.set_crs(epsg=4326, inplace=True)  # EPSG 4326 is WGS84 Latitude/Longitude
 
     # Load the shapefile county data
-    shapefile_path = '../shape_files/tl_2018_us_county/tl_2018_us_county.shp'
+    shapefile_path = os.path.join(os.path.dirname(__file__), '../shape_files/tl_2018_us_county/tl_2018_us_county.shp')
     counties = gpd.read_file(shapefile_path)
 
     # Filter out non-Texas counties and cast COUNTYFP to string
@@ -347,7 +359,7 @@ for state,FIPS_state in zip(state_string,FIP_state):
     merged = tx_counties.merge(income_data, left_on='COUNTYFP', right_on='county_code', how='left')
     vmin = merged['average_family_income'].min()
     vmax = merged['average_family_income'].max()
-    
+
     time_end_state[state_iteration] = tk.time()
 
     # Graphic Generation
@@ -372,12 +384,12 @@ for state,FIPS_state in zip(state_string,FIP_state):
             if (color != "#FF000000"):
                 subset = geocode_data_gdf[geocode_data_gdf['Color'] == color]
                 if (color == COLOR1):
-                    subset.plot(ax=ax, color=color, markersize=5, label='Higher Proportion of Poverty\nthan AP Enrollment')
-                else:
                     subset.plot(ax=ax, color=color, markersize=5, label='Lower Proportion of Poverty\nthan AP Enrollment')
+                else:
+                    subset.plot(ax=ax, color=color, markersize=5, label='Higher Proportion of Poverty\nthan AP Enrollment')
 
         ax.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9, 0, 0), bbox_transform=fig.transFigure, framealpha=0.0, fontsize=sz)
-        plt.savefig('../Figures/Income_StateMaps/IncomeMap_' + state + '.png', dpi=OutputResolution)
+        plt.savefig(os.path.join(os.path.dirname(__file__), '../Figures/Income_StateMaps/IncomeMap_' + state + '.png'), dpi=OutputResolution)
         plt.close()
 
         # Create figure and axes for Matplotlib - average_loan_amount
@@ -403,7 +415,7 @@ for state,FIPS_state in zip(state_string,FIP_state):
                     subset.plot(ax=ax, color=color, markersize=5, label='Higher Proportion of Poverty\nthan AP Enrollment')
             
         ax.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9, 0, 0), bbox_transform=fig.transFigure, framealpha=0.0, fontsize=sz)
-        plt.savefig('../Figures/Loan_StateMaps/LoanMap_' + state + '.png', dpi=OutputResolution)
+        plt.savefig(os.path.join(os.path.dirname(__file__), '../Figures/Loan_StateMaps/LoanMap_' + state + '.png'), dpi=OutputResolution)
         plt.close()
         
         time_str_graphics[state_iteration] = tk.time()
@@ -422,21 +434,20 @@ plt.figure(figsize=(10, 6))  # You can adjust the size as needed
 plt.bar(state_string, runtime, color='blue')  # You can change the color as well
 plt.xlabel('State')
 plt.ylabel('Runtime [s]')
-plt.savefig('../Figures/runtime.png', dpi=OutputResolution)
+plt.savefig(os.path.join(os.path.dirname(__file__), '../Figures/runtime.png'), dpi=OutputResolution)
 plt.close()
 
 # Analyze State Perfomance
 upperlimit = np.percentile(state_performance, 96) # The upper limit of the heatmap will be the 96th percentile
 midpoint = np.mean(state_performance)
-# midpoint   = np.percentile(state_performance, 50) # The midpoint of the heatmap will be the 50th percentile
-print('upperlimit >> ', upperlimit)
+
 fig, ax1 = plt.subplots(1, figsize=(7, 4))
 plt.xlabel('State Performance', size=sz)
 ax1.set_ylabel('PDF', size=sz)
 ax1.hist(state_performance, bins='auto', density=True, color='k', alpha=0.25, label='Histogram')
 ax1.plot([upperlimit, upperlimit], [0, 7], 'r--', label='95th Percentile')
 fig.tight_layout()  # To ensure the right y-label is not slightly clipped
-plt.savefig('../Figures/StatePerformanceHistogram.png', dpi=OutputResolution)
+plt.savefig(os.path.join(os.path.dirname(__file__), '../Figures/StatePerformanceHistogram.png'), dpi=OutputResolution)
 plt.close()
 
 
@@ -450,7 +461,7 @@ print('Midpoint ', midpoint)
 print('Maximum  ', upperlimit)
 
 # Analyze Country-wide performance indices
-shapefile_states_path = '../shape_files/tl_2023_us_state/tl_2023_us_state.shp'
+shapefile_states_path = os.path.join(os.path.dirname(__file__), '../shape_files/tl_2023_us_state/tl_2023_us_state.shp')
 states_shp = gpd.read_file(shapefile_states_path)
 enroll_greater_than_poverty_df = pd.DataFrame(state_group)
 states_shp = states_shp.merge(enroll_greater_than_poverty_df, left_on='STATEFP', right_on='STATEFP', how='left')
@@ -460,25 +471,35 @@ fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
 ax.axis('off')
 
 
+import matplotlib.colors as mcol
+
 # User-defined colormap from red to blue
-color_list = ['red', 'blue']  # Colors from blue to white to red
-# color_list = ['red', 'white', 'blue']  # Colors from blue to white to red
+color_list = ['red', 'blue']  # Colors from blue to red for a two-point gradient
 cmap_name = 'MyCmapName'
-positions = ([min(state_performance), upperlimit]-min(state_performance))/(upperlimit-min(state_performance))
-# positions = ([min(state_performance), midpoint, upperlimit]-min(state_performance))/(upperlimit-min(state_performance))
+
+# Ensure positions start at 0 and end at 1 for a valid colormap gradient
+positions = [0, 1]  # For a two-color gradient
+
+# Define colormap
 cm1 = mcol.LinearSegmentedColormap.from_list(cmap_name, list(zip(positions, color_list)))
 cnorm = mcol.Normalize(vmin=min(state_performance), vmax=upperlimit)
+
+# Use ScalarMappable with the updated colormap
 sm = cm.ScalarMappable(norm=cnorm, cmap=cm1)
 sm.set_array([])  
 states_shp.plot(column='state_performance', ax=ax, edgecolor='0', linewidth=1, cmap=cm1)
 cbaxes = fig.add_axes([0.85, 0.15, 0.015, 0.7])  # Adjust these values for your layout needs
 cbar = fig.colorbar(sm, cax=cbaxes)
 cbar.set_label('State Performance', size=12)  # Adjust the label
-ax.set_ylim((  19,  71))
+ax.set_ylim((19, 71))
 ax.set_xlim((-170, -50))
-plt.savefig('../Figures/CountryWidePerformance.png', dpi=OutputResolution)
+plt.savefig(os.path.join(os.path.dirname(__file__), '../Figures/CountryWidePerformance.png'), dpi=OutputResolution)
 plt.close()
 
 
 time_end_abs = tk.time()
-print('\n\nCode has finished to last line in '+str(time_end_abs-time_str_abs)+' secs.')
+print(' ')
+print(' ')
+print('Finished VisualizeSpatialPovertyData.py:  ' + 
+      str(time_end_abs-time_str_abs) + ' secs. (' + 
+      str((time_end_abs-time_str_abs)/60)+' min.)')

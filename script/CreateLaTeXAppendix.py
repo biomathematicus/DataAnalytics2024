@@ -1,3 +1,11 @@
+import os
+import time as tk
+
+time_str_abs = tk.time()
+
+output_dir = os.path.join(os.path.dirname(__file__), '../SupplementaryMaterial')
+os.makedirs(output_dir, exist_ok=True)
+
 # Select the states you want to include in the supplementary material
 state_string = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
@@ -35,7 +43,7 @@ latex_content = r"""
 
 """
 
-filenames = ["../Figures/Histograms/Poverty_vs_Alg2_" + state + ".png" for state in state_string]
+filenames = [("../Figures/Histograms/Poverty_vs_Alg2_" + state + ".png") for state in state_string]
 latex_content += r"\subsection{Poverty Histograms}" + "\n"
 latex_content += r"short description of general process to find the proportions etc. etc." + "\n"
 for state, filename in zip(state_string, filenames):
@@ -47,7 +55,7 @@ for state, filename in zip(state_string, filenames):
     latex_content += r"\end{figure}" + "\n\n"
 
 
-filenames = ["../Figures/Income_StateMaps/IncomeMap_" + state + ".png" for state in state_string]
+filenames = [("../Figures/Income_StateMaps/IncomeMap_" + state + ".png") for state in state_string]
 latex_content += r"\subsection{Income Family per State County Subdivision}" + "\n"
 latex_content += r"short description of general process to find the proportions etc. etc." + "\n"
 for state, filename in zip(state_string, filenames):
@@ -58,7 +66,7 @@ for state, filename in zip(state_string, filenames):
     latex_content += r"\caption{" + state_full_names[state] + " graphic output}" + "\n"
     latex_content += r"\end{figure}" + "\n\n"
 
-filenames = ["../Figures/Loan_StateMaps/LoanMap_" + state + ".png" for state in state_string]
+filenames = [("../Figures/Loan_StateMaps/LoanMap_" + state + ".png") for state in state_string]
 latex_content += r"\subsection{Loan per State County Subdivision}" + "\n"
 latex_content += r"short description of general process to find the proportions etc. etc." + "\n"
 for state, filename in zip(state_string, filenames):
@@ -73,5 +81,10 @@ for state, filename in zip(state_string, filenames):
 latex_content += r"\end{document}"
 
 # Write to a .tex file
-with open("../SupplementaryMaterial/SupplementaryMaterialSource.tex", "w") as file:
+with open(os.path.join(os.path.dirname(__file__),"../SupplementaryMaterial/SupplementaryMaterialSource.tex"), "w") as file:
     file.write(latex_content)
+
+time_end_abs = tk.time()
+print(' ')
+print(' ')
+print('Finished CreateLaTeXAppendix.py:  '+str(time_end_abs-time_str_abs)+' secs.')

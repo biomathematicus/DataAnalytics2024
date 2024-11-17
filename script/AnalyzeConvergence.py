@@ -9,53 +9,60 @@ from   matplotlib.ticker import PercentFormatter
 import matplotlib.colors as mcol
 import matplotlib.cm as cm
 from   shapely.geometry import box
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 def hist2moments_convergence(histogram_data, num_terms, generate_figs, algebra_estimates, COLOR1, COLOR2, sz, OutputResolution, state):
     lw = 2.5
-    
-    # nan_exists = np.isnan(histogram_data).any()
-    # inf_exists = np.isinf(histogram_data).any()
-    histogram_data = np.nan_to_num(histogram_data, nan=0.0) # NaNs come from 0/0 proportions
-    
+
+    # Handle NaN values in histogram_data
+    histogram_data = np.nan_to_num(histogram_data, nan=0.0)
+
     # Normalize histogram data to create PDF
-    # counts, edges = np.histogram(histogram_data, bins='auto', density=True)
     counts, edges = np.histogram(histogram_data, density=True)
     x = edges[:-1] + np.diff(edges) / 2
     y = counts
     h = (max(x) - min(x)) / (len(x) - 1)
 
-    degrees = range(1, num_terms+1)
+    degrees = range(1, num_terms + 1)
     f_approx = np.zeros((x.shape[0], len(degrees)))
-    fit_degree = []
     error_metric = []
     column = 0
     for i in degrees:
-        f_approx[:,column] = representation_theory(i, x, y, h)
-        error_metric.append(np.sqrt(np.mean((y - f_approx[:,column])**2)))
+        f_approx[:, column] = representation_theory(i, x, y, h)
+        error_metric.append(np.sqrt(np.mean((y - f_approx[:, column]) ** 2)))
         column += 1
 
     # Graphic output if needed
     if generate_figs:
+        # Define the output directory
+        output_dir = os.path.join(os.path.dirname(__file__), '../Figures/Convergence')
+        
+        # Ensure the directory exists
+        os.makedirs(output_dir, exist_ok=True)
+
         # Create the first plot
         fig, ax1 = plt.subplots(1, figsize=(7, 4))
         plt.xlabel('Polynomial Degree to Fit Histogram', size=sz)
         ax1.set_ylabel('RMSE of Polynomial Fit', size=sz)
         ax1.plot(degrees, error_metric, 'ko-', linewidth=lw)
         fig.tight_layout()
-        plt.savefig('../Figures/Convergence/ErrorPlot.png', dpi=OutputResolution)
+        plt.savefig(os.path.join(output_dir, 'ErrorPlot.png'), dpi=OutputResolution)
         plt.close()
-        
-        # Create the first plot
+
+        # Create the second plot
         threshold = 0.05
         fig, ax1 = plt.subplots(1, figsize=(7, 4))
         plt.xlabel('Polynomial Degree to Fit Histogram', size=sz)
         ax1.set_ylabel('Rel. Change in RMSE of Polynomial Fit', size=sz)
-        ax1.plot(degrees[:-1], np.abs(np.diff(error_metric)/error_metric[0]), 'ko-', linewidth=lw, label='Error')
+        ax1.plot(degrees[:-1], np.abs(np.diff(error_metric) / error_metric[0]), 'ko-', linewidth=lw, label='Error')
         ax1.plot([degrees[0], degrees[-1]], [threshold, threshold], 'b--', linewidth=lw, label='Threshold')
-        ax1.plot(degrees[3], np.abs(np.diff(error_metric)[3]/error_metric[0]), 'ro', linewidth=lw, label='Necessary Degree')
+        ax1.plot(degrees[3], np.abs(np.diff(error_metric)[3] / error_metric[0]), 'ro', linewidth=lw, label='Necessary Degree')
         ax1.legend(frameon=False)
         fig.tight_layout()
-        plt.savefig('../Figures/Convergence/ChangeErrorPlot.png', dpi=OutputResolution)
+        plt.savefig(os.path.join(output_dir, 'ChangeErrorPlot.png'), dpi=OutputResolution)
         plt.close()
 
     return
@@ -137,7 +144,7 @@ for state,FIPS_state in zip(state_string,FIP_state):
     
     time_str_state[state_iteration] = tk.time()
     
-    print(state, FIPS_state)
+    # print(state, FIPS_state)
     sql_query = 'SELECT leaid from "CRDB".ussd17_edited where state like %s;'
     cursor.execute(sql_query, (state,))
     # Fetch the Poverty data
@@ -295,4 +302,4 @@ cursor.close()
 conn.close()
 
 time_end_abs = tk.time()
-print('\n\nCode has finished to last line in '+str(time_end_abs-time_str_abs)+' secs.')
+print('Finished AnalyzeConvergence.py:  '+str(time_end_abs-time_str_abs)+' secs.')
